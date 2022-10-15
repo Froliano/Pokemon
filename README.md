@@ -1,7 +1,7 @@
 # Pokemon
 Notre premier jeux pokemon
 
-##aide
+## aide
 
 git clone "lien"
 ajouter le projet sur ton pc
