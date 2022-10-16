@@ -7,7 +7,7 @@ class AnimateSprite(pygame.sprite.Sprite):
     # definir les choses à faire àà la création de l'entité
     def __init__(self, sprite_name):
         super().__init__()
-        self.sprit_sheet = pygame.image.load(f"assets/{sprite_name}.png")
+        self.sprit_sheet = pygame.image.load(f"../assets/sprites/{sprite_name}.png")
         self.animation_index = 0
         self.images = {
             "down": self.get_images(0),
