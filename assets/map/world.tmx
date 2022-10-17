@@ -392,9 +392,9 @@
   <object id="112" name="enter_house2" x="72.8333" y="383.25" width="15" height="23.5"/>
  </objectgroup>
  <objectgroup id="11" name="NPCPaths">
-  <object id="113" name="paul_path1" x="176" y="416" width="16" height="16"/>
-  <object id="114" name="paul_path2" x="176" y="464" width="16" height="16"/>
-  <object id="115" name="paul_path3" x="96" y="464" width="16" height="16"/>
-  <object id="116" name="paul_path4" x="96" y="416" width="16" height="16"/>
+  <object id="113" name="paul_path1" x="177" y="416.727" width="14.0909" height="14.9091"/>
+  <object id="114" name="paul_path2" x="176.455" y="464.364" width="15.1818" height="15.3636"/>
+  <object id="115" name="paul_path3" x="96.4545" y="464.273" width="15" height="15.5455"/>
+  <object id="116" name="paul_path4" x="96.8182" y="416.545" width="14.1818" height="15"/>
  </objectgroup>
 </map>

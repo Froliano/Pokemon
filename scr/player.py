@@ -55,9 +55,9 @@ class NPC(Entity):
         super().__init__(name, 0, 0)
         self.nb_points = nb_points
         self.points = []
+        self.current_point = 0
         self.speed = 1.2
         self.name = name
-        self.current_point = 0
 
     def move(self):
         current_point = self.current_point
@@ -68,7 +68,6 @@ class NPC(Entity):
 
         current_rect = self.points[current_point]
         target_rect = self.points[target_point]
-        print(current_point)
 
         if current_rect.y < target_rect.y and abs(current_rect.x - target_rect.x) < 3:
             self.move_down()
