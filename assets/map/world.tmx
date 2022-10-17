@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="113">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="118">
  <tileset firstgid="1" source="nature.tsx"/>
  <tileset firstgid="721" source="house.tsx"/>
  <layer id="1" name="background" width="50" height="50">
@@ -390,5 +390,11 @@
    <point/>
   </object>
   <object id="112" name="enter_house2" x="72.8333" y="383.25" width="15" height="23.5"/>
+ </objectgroup>
+ <objectgroup id="11" name="NPCPaths">
+  <object id="113" name="paul_path1" x="176" y="416" width="16" height="16"/>
+  <object id="114" name="paul_path2" x="176" y="464" width="16" height="16"/>
+  <object id="115" name="paul_path3" x="96" y="464" width="16" height="16"/>
+  <object id="116" name="paul_path4" x="96" y="416" width="16" height="16"/>
  </objectgroup>
 </map>
