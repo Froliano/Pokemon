@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import pygame, pytmx, pyscroll
 from typing import List
 
-from scr.player import NPC
+from Entity.map_entity import NPC
 
 
 @dataclass

@@ -1,5 +1,7 @@
-from scr.player import Player_Combat
+from Entity.player_fight import Player_Combat
 from random import randint
+
+from scr.Entity.mobs import Mobs
 
 
 class Combat:
@@ -7,7 +9,7 @@ class Combat:
     def __init__(self):
 
         self.player = Player_Combat(5, 15, 30, 3, 60)
-        self.player2 = Player_Combat(5, 15, 30, 3, 60)
+        self.player2 = Mobs(5, 15, 30, 3, 60)
         self.premier_joueur()
 
     def premier_joueur(self):
@@ -34,8 +36,6 @@ class Combat:
             self.ennemy.damage(3)
             self.change_joueur()
             print(self.player2.health, self.player.health)
-
-
 
     def update(self):
         self.play()

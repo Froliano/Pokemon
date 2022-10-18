@@ -1,7 +1,5 @@
 import pygame
-import pytmx
-import pyscroll
-from player import Player
+
 from scr.combat import Combat
 from scr.map import MapManager
 
@@ -15,6 +13,7 @@ class Game:
 
         # generer un joueur
         self.combat = Combat()
+        from scr.Entity.map_entity import Player
         self.player = Player()
         self.map_manager = MapManager(self.screen, self.player)
 
