@@ -32,6 +32,7 @@ class Game:
 
     def update(self):
         self.map_manager.update()
+        self.combat.update()
 
     def run(self):
 
@@ -45,7 +46,6 @@ class Game:
             self.player.save_location()
             self.handle_input()
             self.update()
-            self.combat.update()
             self.map_manager.draw()
             pygame.display.flip()
 

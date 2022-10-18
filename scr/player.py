@@ -52,12 +52,17 @@ class Player_Combat:
         self.attack = attack
         self.defense = defense
         self.alive = True
-    def damage(self, ennemy):
-        ennemy.health -= self.attack
+
+    def damage(self, amount):
+        if self.health - amount >= amount:
+            self.health -= amount
+        else:
+            self.alive = False
 
     def heal(self):
         self.health += 2
 
+    def is_alive(self): return self.alive
 
 
 class Player(Entity):
@@ -106,7 +111,7 @@ class NPC(Entity):
         self.save_location()
 
     def load_points(self, tmx_data):
-        for num in range(1, self.nb_points+1):
+        for num in range(1, self.nb_points + 1):
             point = tmx_data.get_object_by_name(f"{self.name}_path{num}")
             rect = pygame.Rect(point.x, point.y, point.width, point.height)
             self.points.append(rect)
