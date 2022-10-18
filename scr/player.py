@@ -43,10 +43,28 @@ class Entity(AnimateSprite):
         self.feet.midbottom = self.rect.midbottom
 
 
+class Player_Combat:
+
+    def __init__(self, speed, xp, health, attack, defense):
+        self.speed = speed
+        self.xp = xp
+        self.health = health
+        self.attack = attack
+        self.defense = defense
+        self.alive = True
+    def damage(self, ennemy):
+        ennemy.health -= self.attack
+
+    def heal(self):
+        self.health += 2
+
+
+
 class Player(Entity):
 
     def __init__(self):
         super().__init__("player", 0, 0)
+        self.speed = 5
 
 
 class NPC(Entity):

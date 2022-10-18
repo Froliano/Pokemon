@@ -2,6 +2,7 @@ import pygame
 import pytmx
 import pyscroll
 from player import Player
+from scr.combat import Combat
 from scr.map import MapManager
 
 
@@ -13,6 +14,7 @@ class Game:
         pygame.display.set_caption("Pygamon")
 
         # generer un joueur
+        self.combat = Combat()
         self.player = Player()
         self.map_manager = MapManager(self.screen, self.player)
 
@@ -43,6 +45,7 @@ class Game:
             self.player.save_location()
             self.handle_input()
             self.update()
+            self.combat.update()
             self.map_manager.draw()
             pygame.display.flip()
 
