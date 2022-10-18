@@ -9,7 +9,7 @@ class AnimateSprite(pygame.sprite.Sprite):
         super().__init__()
         self.sprit_sheet = pygame.image.load(f"../assets/sprites/{name}.png")
         self.animation_index = 0
-        self.images = {
+        self.images = {a
             "down": self.get_images(0),
             "left": self.get_images(32),
             "right": self.get_images(64),
