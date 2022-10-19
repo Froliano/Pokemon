@@ -33,7 +33,11 @@ class Combat:
 
     def play(self):
         while self.ennemy.is_alive():
-            self.ennemy.damage(3)
+            action=input('Attaquez:1\n Heal:2')
+            if action==1:
+                self.ennemy.damage(3)
+            elif action == 2:
+                self.current_player.heal()
             self.change_joueur()
             print(self.player2.health, self.player.health)
 
