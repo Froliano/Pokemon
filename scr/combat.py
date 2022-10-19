@@ -1,3 +1,5 @@
+import pygame
+
 from Entity.player_fight import Player_Combat
 from random import randint
 
@@ -32,11 +34,13 @@ class Combat:
         self.current_player, self.ennemy = self.ennemy, self.current_player
 
     def play(self):
-        while self.ennemy.is_alive():
-            action=input('Attaquez:1\n Heal:2')
-            if action==1:
+
+        if self.ennemy.is_alive():
+            pressed = pygame.key.get_pressed()
+
+            if pressed[pygame.K_1]:
                 self.ennemy.damage(3)
-            elif action == 2:
+            elif pressed[pygame.K_2]:
                 self.current_player.heal()
             self.change_joueur()
             print(self.player2.health, self.player.health)
