@@ -26,7 +26,7 @@ class Player:
 
 
 def change_joueur(p1, p2):
-    p1, p2 = p2, p1
+    return p2, p1
 
 player1 = Player()
 player2 = Player()
@@ -37,7 +37,7 @@ while player1.is_alive():
         player2.damage(3)
     elif action == "2":
         player1 .heal()
-    change_joueur(player1, player2)
+    player1, player2 = change_joueur(player1, player2)
     print(player1.get_health(), player2.get_health())
 
 

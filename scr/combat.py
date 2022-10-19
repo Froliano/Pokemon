@@ -1,17 +1,15 @@
 import pygame
 
-from Entity.player_fight import Player_Combat
 from random import randint
-
-from scr.Entity.mobs import Mobs
+from scr.Entity.map_entity import Player
 
 
 class Combat:
 
     def __init__(self):
 
-        self.player = Player_Combat(5, 15, 30, 3, 60)
-        self.player2 = Mobs(5, 15, 30, 3, 60)
+        self.player = Player(5, 15, 30, 3, 60)
+        self.player2 = Player(5, 15, 30, 3, 60)
         self.premier_joueur()
 
     def premier_joueur(self):
