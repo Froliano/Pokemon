@@ -1,6 +1,7 @@
 import pygame
 from scr.Entity.entity import Entity
 
+
 class Player(Entity):
 
     def __init__(self, fight_speed=0, xp=0, health=10, attack=0, defense=0):
