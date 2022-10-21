@@ -41,7 +41,6 @@ class Combat:
             elif pressed[pygame.K_2]:
                 self.current_player.heal()
             self.change_joueur()
-            print(self.player2.health, self.player.health)
 
     def update(self):
         self.play()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="31">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="31">
  <tileset firstgid="1" source="house.tsx"/>
  <layer id="1" name="floor" width="25" height="25">
   <data encoding="csv">
@@ -89,26 +89,26 @@
 </data>
  </layer>
  <objectgroup id="5" name="objects">
-  <object id="5" type="collision" x="96.4136" y="79.1803" width="15.8361" height="112.25"/>
-  <object id="6" type="collision" x="96.8794" y="31.2063" width="285.98" height="47.5082"/>
-  <object id="7" type="collision" x="368.887" y="79.1803" width="14.4388" height="112.715"/>
-  <object id="8" type="collision" x="95.4821" y="191.43" width="47.5082" height="15.8361"/>
-  <object id="9" type="collision" x="176.06" y="191.896" width="207.266" height="15.3703"/>
-  <object id="10" type="collision" x="176.525" y="208.197" width="190.964" height="47.0424"/>
-  <object id="11" type="collision" x="64.2757" y="207.732" width="79.1803" height="46.5766"/>
-  <object id="13" type="collision" x="63.81" y="254.774" width="15.8361" height="112.715"/>
-  <object id="14" type="collision" x="351.653" y="256.171" width="15.8361" height="111.318"/>
-  <object id="15" type="collision" x="63.81" y="367.955" width="304.145" height="14.9045"/>
-  <object id="18" type="collision" x="143.456" y="77.783" width="27.946" height="11.6442"/>
-  <object id="19" type="collision" x="230.554" y="118.77" width="44.7136" height="34.9325"/>
-  <object id="20" type="collision" x="230.554" y="167.676" width="44.2478" height="17.6991"/>
-  <object id="21" type="collision" x="221.705" y="78.2487" width="31.2063" height="12.1099"/>
-  <object id="22" type="collision" x="271.076" y="79.1803" width="12.5757" height="10.7126"/>
-  <object id="23" type="collision" x="335.352" y="79.1803" width="27.0144" height="27.4802"/>
-  <object id="24" type="collision" x="95.0163" y="255.24" width="28.8775" height="10.2469"/>
-  <object id="25" type="collision" x="190.964" y="255.24" width="27.946" height="10.7126"/>
-  <object id="26" type="collision" x="261.761" y="255.706" width="14.9045" height="11.6442"/>
-  <object id="27" type="collision" x="309.269" y="255.706" width="15.8361" height="12.1099"/>
+  <object id="5" class="collision" x="96.4136" y="79.1803" width="15.8361" height="112.25"/>
+  <object id="6" class="collision" x="96.8794" y="31.2063" width="285.98" height="47.5082"/>
+  <object id="7" class="collision" x="368.887" y="79.1803" width="14.4388" height="112.715"/>
+  <object id="8" class="collision" x="95.4821" y="191.43" width="47.5082" height="15.8361"/>
+  <object id="9" class="collision" x="176.06" y="191.896" width="207.266" height="15.3703"/>
+  <object id="10" class="collision" x="176.525" y="208.197" width="190.964" height="47.0424"/>
+  <object id="11" class="collision" x="64.2757" y="207.732" width="79.1803" height="46.5766"/>
+  <object id="13" class="collision" x="63.81" y="254.774" width="15.8361" height="112.715"/>
+  <object id="14" class="collision" x="351.653" y="256.171" width="15.8361" height="111.318"/>
+  <object id="15" class="collision" x="63.81" y="367.955" width="304.145" height="14.9045"/>
+  <object id="18" class="collision" x="143.456" y="77.783" width="27.946" height="11.6442"/>
+  <object id="19" class="collision" x="230.554" y="118.77" width="44.7136" height="34.9325"/>
+  <object id="20" class="collision" x="230.554" y="167.676" width="44.2478" height="17.6991"/>
+  <object id="21" class="collision" x="221.705" y="78.2487" width="31.2063" height="12.1099"/>
+  <object id="22" class="collision" x="271.076" y="79.1803" width="12.5757" height="10.7126"/>
+  <object id="23" class="collision" x="335.352" y="79.1803" width="27.0144" height="27.4802"/>
+  <object id="24" class="collision" x="95.0163" y="255.24" width="28.8775" height="10.2469"/>
+  <object id="25" class="collision" x="190.964" y="255.24" width="27.946" height="10.7126"/>
+  <object id="26" class="collision" x="261.761" y="255.706" width="14.9045" height="11.6442"/>
+  <object id="27" class="collision" x="309.269" y="255.706" width="15.8361" height="12.1099"/>
   <object id="29" name="exit_house" x="98" y="353.875" width="28.125" height="12.125"/>
   <object id="30" name="spawn_house" x="111.833" y="314">
    <point/>

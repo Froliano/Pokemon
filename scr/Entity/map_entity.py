@@ -1,7 +1,6 @@
 import pygame
 from scr.Entity.entity import Entity
 
-
 class Player(Entity):
 
     def __init__(self, fight_speed=0, xp=0, health=10, attack=0, defense=0):
@@ -15,11 +14,13 @@ class Player(Entity):
         self.defense = defense
         self.alive = True
 
+
     def damage(self, amount):
         if self.health - amount >= amount:
             self.health -= amount
         else:
             self.alive = False
+
 
     def heal(self):
         self.health += 2

@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 import pygame, pytmx, pyscroll
-from typing import List
 
 from Entity.map_entity import NPC
 
@@ -16,11 +15,11 @@ class Portal:
 @dataclass
 class Map:
     name: str
-    walls: List[pygame.Rect]
+    walls: list[pygame.Rect]
     group: pyscroll.PyscrollGroup
     tmx_data: pytmx.TiledMap
-    portals: List[Portal]
-    npcs: List[NPC]
+    portals: list[Portal]
+    npcs: list[NPC]
 
 
 class MapManager:
@@ -33,7 +32,8 @@ class MapManager:
 
         self.register_map("world", portals=[
             Portal(from_world="world", origin_point="enter_house1", target_world="house", teleport_point="spawn_house"),
-            Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house")
+            Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
+            Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
         ], npcs=[
             NPC("paul", nb_points=4)
         ])
@@ -43,6 +43,8 @@ class MapManager:
         self.register_map("house2", portals=[
             Portal(from_world="house2", origin_point="exit_house", target_world="world", teleport_point="exit_house2")
         ])
+
+        self.register_map("fight")
 
         self.teleport_player("player")
         self.teleport_npcs()
@@ -62,6 +64,7 @@ class MapManager:
 
         #collision
         for sprite in self.get_group().sprites():
+            print(self.get_walls())
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()
 
@@ -94,7 +97,7 @@ class MapManager:
             group.add(npc)
 
         # Creer un objet map
-        self.maps[name]= Map(name, walls, group, tmx_data, portals, npcs)
+        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs)
 
     def get_map(self): return self.maps[self.current_map]
 
