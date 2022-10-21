@@ -64,7 +64,6 @@ class MapManager:
 
         #collision
         for sprite in self.get_group().sprites():
-            print(self.get_walls())
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()
 

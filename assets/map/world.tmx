@@ -393,9 +393,9 @@
   <object id="118" name="fight" x="193" y="18.25" width="30" height="30"/>
  </objectgroup>
  <objectgroup id="11" name="NPCPaths">
-  <object id="113" name="paul_path1" x="176" y="416" width="16" height="16"/>
-  <object id="114" name="paul_path2" x="176" y="464" width="16" height="16"/>
+  <object id="113" name="paul_path1" x="144.125" y="448" width="16" height="16"/>
+  <object id="114" name="paul_path2" x="144.125" y="464" width="16" height="16"/>
   <object id="115" name="paul_path3" x="96" y="464" width="16" height="16"/>
-  <object id="116" name="paul_path4" x="96" y="416" width="16" height="16"/>
+  <object id="116" name="paul_path4" x="96.125" y="448" width="16" height="16"/>
  </objectgroup>
 </map>
