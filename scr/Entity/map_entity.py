@@ -37,7 +37,7 @@ class NPC(Entity):
         self.nb_points = nb_points
         self.points = []
         self.current_point = 0
-        self.speed = 1.2
+        self.speed = 0.5
         self.name = name
 
     def move(self):
@@ -60,6 +60,7 @@ class NPC(Entity):
             self.move_right()
 
         if self.rect.colliderect(target_rect):
+            print(self.rect, target_rect)
             self.current_point = target_point
 
     def teleport_spawn(self):
