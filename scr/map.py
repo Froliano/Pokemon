@@ -9,7 +9,7 @@ class Portal:
     from_world: str
     origin_point: str
     target_world: str
-    teleport_point:str
+    teleport_point: str
 
 
 @dataclass
@@ -35,7 +35,8 @@ class MapManager:
             Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
         ], npcs=[
-            NPC("paul", nb_points=4)
+            NPC("paul", nb_points=4),
+            NPC("robin", nb_points=1),
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="exit_house1")
@@ -64,7 +65,6 @@ class MapManager:
 
         #collision
         for sprite in self.get_group().sprites():
-            print(self.get_walls())
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()
 
