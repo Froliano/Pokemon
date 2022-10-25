@@ -58,7 +58,7 @@ class NPC(Entity):
         elif current_rect.x < target_rect.x and abs(current_rect.y - target_rect.y) < 3:
             self.move_right()
 
-        if self.rect.colliderect(target_rect):
+        if self.feet.collidepoint(target_rect.center):
             self.current_point = target_point
 
     def teleport_spawn(self):
