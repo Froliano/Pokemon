@@ -13,7 +13,7 @@ class Game:
 
         # generer un joueur
         self.combat = Combat()
-        from scr.Entity.map_entity import Player
+        from scr.map_entity import Player
         self.player = Player()
         self.map_manager = MapManager(self.screen, self.player)
 

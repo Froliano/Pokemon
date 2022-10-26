@@ -1,7 +1,7 @@
 import pygame
 
 from random import randint
-from scr.Entity.map_entity import Player
+from scr.map_entity import Player
 
 
 class Combat:

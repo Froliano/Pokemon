@@ -1,5 +1,5 @@
 import pygame
-from scr.Entity.entity import Entity
+from scr.entity import Entity
 
 class Player(Entity):
 
