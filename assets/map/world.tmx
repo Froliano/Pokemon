@@ -448,9 +448,9 @@
   <object id="135" name="robin_path1" x="193.667" y="18.3333" width="30" height="30"/>
  </objectgroup>
  <objectgroup id="11" name="NPCPaths">
-  <object id="113" name="paul_path1" x="176" y="368" width="16" height="16"/>
-  <object id="114" name="paul_path2" x="176" y="464" width="16" height="16"/>
-  <object id="115" name="paul_path3" x="96" y="464" width="16" height="16"/>
-  <object id="116" name="paul_path4" x="96" y="368" width="16" height="16"/>
+  <object id="113" name="paul_path1" x="208.667" y="416.333" width="16" height="16"/>
+  <object id="114" name="paul_path2" x="208" y="480.333" width="16" height="16"/>
+  <object id="115" name="paul_path3" x="96" y="480.667" width="16" height="16"/>
+  <object id="116" name="paul_path4" x="96.3333" y="416" width="16" height="16"/>
  </objectgroup>
 </map>

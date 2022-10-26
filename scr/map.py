@@ -126,10 +126,6 @@ class MapManager:
     def draw(self):
         self.get_group().draw(self.screen)
         self.get_group().center(self.player.rect.center)
-        for npc in self.get_map().npcs:
-            for point in npc.points:
-                pygame.draw.rect(self.screen, "red", point)
-
     def update(self):
         self.get_group().update()
         self.check_collision()
