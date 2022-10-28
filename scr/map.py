@@ -36,7 +36,7 @@ class MapManager:
             Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
         ], npcs=[
             NPC("paul", nb_points=4),
-            NPC("robin", nb_points=1),
+            NPC("robin", nb_points=1)
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="exit_house1")
@@ -126,6 +126,7 @@ class MapManager:
     def draw(self):
         self.get_group().draw(self.screen)
         self.get_group().center(self.player.rect.center)
+
     def update(self):
         self.get_group().update()
         self.check_collision()
