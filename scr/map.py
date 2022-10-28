@@ -67,7 +67,7 @@ class MapManager:
         for sprite in self.get_group().sprites():
 
             if type(sprite) is NPC:
-                if sprite.feet.colliderect(self.player.rect):
+                if sprite.feet.colliderect(self.player.feet):
                     sprite.speed = 0
                 else:
                     sprite.speed = sprite.default_speed
