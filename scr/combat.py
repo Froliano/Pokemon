@@ -7,40 +7,45 @@ from scr.map_entity import Player
 class Combat:
 
     def __init__(self):
+        self.player = Player()
+        self.ennemy = Player()
+        self.clock = 0
 
-        self.player = Player(5, 15, 30, 3, 60)
-        self.player2 = Player(5, 15, 30, 3, 60)
-        self.premier_joueur()
-
-    def premier_joueur(self):
-        if self.player.speed > self.player2.speed:
-            self.current_player = self.player
-            self.ennemy = self.player2
-        elif self.player.speed < self.player2.speed:
-            self.ennemy = self.player2
-            self.current_player = self.player
+    def premier_joueur(self, p1, p2):
+        if p1.speed > p2.speed:
+            self.player = p1
+            self.ennemy = p2
+        elif p1.speed < p2.speed:
+            self.player = p2
+            self.ennemy = p1
         else:
             a = randint(0, 1)
             if a == 0:
-                self.current_player = self.player
-                self.ennemy = self.player2
+                self.player = p1
+                self.ennemy = p2
             elif a == 1:
-                self.ennemy = self.player2
-                self.current_player = self.player
+                self.player = p2
+                self.ennemy = p1
 
     def change_joueur(self):
-        self.current_player, self.ennemy = self.ennemy, self.current_player
+        self.player, self.ennemy = self.ennemy, self.player
+
+    def define(self, player, ennemy):
+        self.premier_joueur(player, ennemy)
 
     def play(self):
 
         if self.ennemy.is_alive():
-            pressed = pygame.key.get_pressed()
+            self.clock += 1
+            if self.clock >= 50:
+                pressed = pygame.key.get_pressed()
+                if pressed[pygame.K_1]:
+                    self.ennemy.damage(3)
+                    self.clock = 0
+                elif pressed[pygame.K_2]:
+                    self.player.heal()
+                    self.clock = 0
+                print(self.ennemy.health)
 
-            if pressed[pygame.K_1]:
-                self.ennemy.damage(3)
-            elif pressed[pygame.K_2]:
-                self.current_player.heal()
-            self.change_joueur()
-
-    def update(self):
-        self.play()
+        else:
+            print("died")

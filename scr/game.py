@@ -3,6 +3,7 @@ import pygame
 from scr.combat import Combat
 from scr.map import MapManager
 from scr.dialog import DialogBox
+from scr.map_entity import Player
 
 
 class Game:
@@ -14,7 +15,6 @@ class Game:
 
         # generer un joueur
         self.combat = Combat()
-        from scr.map_entity import Player
         self.player = Player()
         self.map_manager = MapManager(self.screen, self.player)
         self.dialogue_box = DialogBox()
@@ -32,8 +32,7 @@ class Game:
             self.player.move_right()
 
     def update(self):
-        self.map_manager.update()
-        self.combat.update()
+        self.map_manager.update(self.screen)
 
     def run(self):
 
@@ -46,8 +45,9 @@ class Game:
 
             self.player.save_location()
             self.handle_input()
-            self.update()
             self.map_manager.draw()
+            self.map_manager.fight()
+            self.update()
             self.dialogue_box.render(self.screen)
             pygame.display.flip()
 

@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 import pygame, pytmx, pyscroll
 
-from scr.map_entity import NPC
+from scr.map_entity import NPC, Player
+from scr.combat import Combat
 
 
 @dataclass
@@ -19,6 +20,7 @@ class Map:
     group: pyscroll.PyscrollGroup
     tmx_data: pytmx.TiledMap
     portals: list[Portal]
+    npcs_portal: list[Portal]
     npcs: list[NPC]
 
 
@@ -29,6 +31,7 @@ class MapManager:
         self.current_map = "world"
         self.screen = screen
         self.player = player
+        self.combat = Combat()
 
         self.register_map("world", portals=[
             Portal(from_world="world", origin_point="enter_house1", target_world="house", teleport_point="spawn_house"),
@@ -36,14 +39,16 @@ class MapManager:
             Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
         ], npcs=[
             NPC("paul", nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
-            NPC("robin", nb_points=1)
+            NPC("robin", nb_points=4,
+                portal=Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
+        )
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="exit_house1")
         ])
-        self.register_map("house2", portals=[
+        self.register_map("house2", portals=
             Portal(from_world="house2", origin_point="exit_house", target_world="world", teleport_point="exit_house2")
-        ])
+        )
 
         self.register_map("fight")
 
@@ -60,12 +65,18 @@ class MapManager:
         for portal in self.get_map().portals:
             if portal.from_world == self.current_map:
                 point = self.get_object(portal.origin_point)
-                rect = pygame.Rect(point.x, point.y, point.width, point.height)
+                for npc in self.get_map().npcs_portal:
+                    if npc.portal.from_world == portal.from_world:
+                        rect = pygame.Rect(npc.position[0], npc.position[1], point.width+2, point.height+2)
+                    else:
+                        rect = pygame.Rect(point.x, point.y, point.width, point.height)
 
                 if self.player.feet.colliderect(rect):
                     copy_portal = portal
                     self.current_map = portal.target_world
                     self.teleport_player(copy_portal.teleport_point)
+                    if self.current_map == "fight":
+                        self.combat.define(self.player, Player())
 
 
         #collision
@@ -80,6 +91,10 @@ class MapManager:
 
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()
+
+    def fight(self):
+        if self.current_map == "fight":
+            self.combat.play()
 
     def teleport_player(self, name):
         point = self.get_object(name)
@@ -96,7 +111,7 @@ class MapManager:
 
         # definir une liste qui va stocker les rectangles de collision
         walls = []
-
+        npcs_portal = []
         for obj in tmx_data.objects:
             if obj.type == "collision":
                 walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
@@ -108,9 +123,11 @@ class MapManager:
         # recuperer tout les npcs pour les ajouter au groupe
         for npc in npcs:
             group.add(npc)
+            if npc.portal:
+                npcs_portal.append(npc)
 
         # Creer un objet map
-        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs)
+        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs_portal, npcs)
 
     def get_map(self): return self.maps[self.current_map]
 
@@ -133,9 +150,9 @@ class MapManager:
         self.get_group().draw(self.screen)
         self.get_group().center(self.player.rect.center)
 
-    def update(self):
+    def update(self, screen):
         self.get_group().update()
         self.check_collision()
 
         for npc in self.get_map().npcs:
-            npc.move()
+            npc.move(screen)

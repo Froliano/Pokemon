@@ -9,7 +9,6 @@ class DialogBox:
     def __init__(self):
         self.box = pygame.image.load("../assets/dialogs/dialog_box.png")
         self.box = pygame.transform.scale(self.box, (700, 100))
-        self.texts = ["Salut ça va ?", "moi super bien", "bonne aventure"]
         self.text_index = 0
         self.letter_index = 0
         self.font = pygame.font.Font("../assets/dialogs/dialog_font.ttf", 18)

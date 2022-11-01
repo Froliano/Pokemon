@@ -1,10 +1,11 @@
 import pygame
 from scr.entity import Entity
 
+
 class Player(Entity):
 
-    def __init__(self, fight_speed=0, xp=0, health=10, attack=0, defense=0):
-        super().__init__("player", 0, 0)
+    def __init__(self,name = "player", fight_speed=1, xp=1, health=10, attack=1, defense=1):
+        super().__init__(name, 0, 0)
         self.fight_speed = fight_speed
         self.speed = 5
         self.xp = xp
@@ -14,33 +15,35 @@ class Player(Entity):
         self.defense = defense
         self.alive = True
 
-
     def damage(self, amount):
-        if self.health - amount >= amount:
+        if self.health - amount >= 0:
             self.health -= amount
         else:
             self.alive = False
 
-
     def heal(self):
-        self.health += 2
+        if self.health + 2 <= self.max_health:
+            self.health += 2
+        else:
+            self.health = self.max_health
 
     def is_alive(self):
         return self.alive
 
 
-class NPC(Entity):
+class NPC(Player):
 
-    def __init__(self, name, nb_points, dialog = []):
-        super().__init__(name, 0, 0)
+    def __init__(self, name, nb_points, dialog = [], portal=None, fight_speed=1, xp=1, health=10, attack=1, defense=1):
+        super().__init__(name, fight_speed, xp, health, attack, defense)
         self.nb_points = nb_points
         self.dialog = dialog
         self.points = []
+        self.portal = portal
         self.current_point = 0
         self.default_speed = 1.2
         self.name = name
 
-    def move(self):
+    def move(self, screen):
         current_point = self.current_point
         target_point = self.current_point + 1
 
@@ -61,6 +64,7 @@ class NPC(Entity):
 
         if self.feet.collidepoint(target_rect.center):
             self.current_point = target_point
+            print("ok")
 
     def teleport_spawn(self):
         location = self.points[self.current_point]
