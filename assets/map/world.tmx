@@ -444,7 +444,6 @@
    <point/>
   </object>
   <object id="112" name="enter_house2" x="72.8333" y="383.25" width="15" height="23.5"/>
-  <object id="118" name="fight" x="191" y="-4.41667" width="30" height="30"/>
  </objectgroup>
  <objectgroup id="11" name="NPCPaths">
   <object id="113" name="paul_path1" x="160.667" y="414.833" width="16" height="16"/>
