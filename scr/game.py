@@ -2,6 +2,7 @@ import pygame
 
 from scr.combat import Combat
 from scr.map import MapManager
+from scr.dialog import DialogBox
 
 
 class Game:
@@ -16,6 +17,7 @@ class Game:
         from scr.map_entity import Player
         self.player = Player()
         self.map_manager = MapManager(self.screen, self.player)
+        self.dialogue_box = DialogBox()
 
     def handle_input(self):
         pressed = pygame.key.get_pressed()
@@ -46,6 +48,7 @@ class Game:
             self.handle_input()
             self.update()
             self.map_manager.draw()
+            self.dialogue_box.render(self.screen)
             pygame.display.flip()
 
             for event in pygame.event.get():
@@ -54,6 +57,8 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         running = False
+                    if event.key == pygame.K_SPACE:
+                        self.map_manager.check_npc_collisions(self.dialogue_box)
 
             clock.tick(60)
 

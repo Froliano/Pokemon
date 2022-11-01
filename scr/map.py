@@ -35,7 +35,7 @@ class MapManager:
             Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
         ], npcs=[
-            NPC("paul", nb_points=4),
+            NPC("paul", nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
             NPC("robin", nb_points=1)
         ])
         self.register_map("house", portals=[
@@ -49,6 +49,11 @@ class MapManager:
 
         self.teleport_player("player")
         self.teleport_npcs()
+
+    def check_npc_collisions(self, dialog_box):
+        for sprite in self.get_group().sprites():
+            if sprite.feet.colliderect(self.player.feet) and type(sprite) is NPC:
+                dialog_box.execute(sprite.dialog)
 
     def check_collision(self):
         #portails
@@ -69,6 +74,7 @@ class MapManager:
             if type(sprite) is NPC:
                 if sprite.feet.colliderect(self.player.feet):
                     sprite.speed = 0
+                    self.player.move_back()
                 else:
                     sprite.speed = sprite.default_speed
 
