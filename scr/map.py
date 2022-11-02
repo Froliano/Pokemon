@@ -46,9 +46,9 @@ class MapManager:
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="exit_house1")
         ])
-        self.register_map("house2", portals=
+        self.register_map("house2", portals=[
             Portal(from_world="house2", origin_point="exit_house", target_world="world", teleport_point="exit_house2")
-        )
+        ])
 
         self.register_map("fight")
 
@@ -62,14 +62,14 @@ class MapManager:
 
     def check_collision(self):
         #portails
+        print(self.get_map().portals)
         for portal in self.get_map().portals:
             if portal.from_world == self.current_map:
                 point = self.get_object(portal.origin_point)
+                rect = pygame.Rect(point.x, point.y, point.width, point.height)
                 for npc in self.get_map().npcs_portal:
-                    if npc.portal.from_world == portal.from_world:
-                        rect = pygame.Rect(npc.position[0], npc.position[1], point.width+2, point.height+2)
-                    else:
-                        rect = pygame.Rect(point.x, point.y, point.width, point.height)
+                    if npc.portal.target_world == portal.target_world:
+                        rect = pygame.Rect(npc.position[0], npc.position[1], point.width+5, point.height+5)
 
                 if self.player.feet.colliderect(rect):
                     copy_portal = portal

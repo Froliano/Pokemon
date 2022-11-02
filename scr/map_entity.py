@@ -64,7 +64,6 @@ class NPC(Player):
 
         if self.feet.collidepoint(target_rect.center):
             self.current_point = target_point
-            print("ok")
 
     def teleport_spawn(self):
         location = self.points[self.current_point]
