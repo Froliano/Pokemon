@@ -62,7 +62,6 @@ class MapManager:
 
     def check_collision(self):
         #portails
-        print(self.get_map().portals)
         for portal in self.get_map().portals:
             if portal.from_world == self.current_map:
                 point = self.get_object(portal.origin_point)
