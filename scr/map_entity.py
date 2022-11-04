@@ -33,10 +33,11 @@ class Player(Entity):
             pygame.draw.rect(surface, (30, 225, 30), [self.bar_position[0], self.bar_position[1], 400*barre, 30])
 
     def damage(self, amount):
-        if self.health - amount >= 0:
+        if self.health - amount > 0:
             self.health -= amount
         else:
             self.alive = False
+            print("game over")
 
     def heal(self):
         if self.health + 2 <= self.max_health:
@@ -60,6 +61,13 @@ class NPC(Player):
         self.default_speed = 1.2
         self.name = name
         self.bar_position = [400, 0]
+
+    def damage(self, amount):
+        if self.health - amount > 0:
+            self.health -= amount
+        else:
+            self.alive = False
+            print("gagné")
 
     def move(self, screen):
         current_point = self.current_point

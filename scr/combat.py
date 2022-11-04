@@ -48,6 +48,3 @@ class Combat:
                     self.clock = 0
                     self.change_joueur()
                 print(self.player.health, self.ennemy.health)
-
-        else:
-            print("died")
