@@ -78,6 +78,7 @@ class MapManager:
                     self.current_map = portal.target_world
                     self.teleport_player(copy_portal.teleport_point)
                     if self.current_map == "fight":
+                        self.player.change_show_bar()
                         self.combat.define(self.player, Player())
                         self.change_npc(self.get_npc(), npc_value)
 

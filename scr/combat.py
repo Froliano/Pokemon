@@ -35,16 +35,18 @@ class Combat:
 
     def play(self):
 
-        if self.ennemy.is_alive():
+        if self.player.is_alive():
             self.clock += 1
             if self.clock >= 50:
                 pressed = pygame.key.get_pressed()
                 if pressed[pygame.K_1]:
                     self.ennemy.damage(3)
                     self.clock = 0
+                    self.change_joueur()
                 elif pressed[pygame.K_2]:
                     self.player.heal()
                     self.clock = 0
+                    self.change_joueur()
                 print(self.player.health, self.ennemy.health)
 
         else:

@@ -33,6 +33,8 @@ class Game:
 
     def update(self):
         self.map_manager.update(self.screen)
+        self.player.update_health_bar(self.screen)
+        self.dialogue_box.render(self.screen)
 
     def run(self):
 
@@ -48,7 +50,6 @@ class Game:
             self.map_manager.draw()
             self.map_manager.fight()
             self.update()
-            self.dialogue_box.render(self.screen)
             pygame.display.flip()
 
             for event in pygame.event.get():

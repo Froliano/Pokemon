@@ -14,6 +14,22 @@ class Player(Entity):
         self.attack = attack
         self.defense = defense
         self.alive = True
+        self.show_bar = False
+
+    def change_show_bar(self):
+        if self.show_bar:
+            self.show_bar = False
+        else:
+            self.show_bar = True
+
+    def update_health_bar(self, surface):
+        # dessiner notre barre de vie
+        if self.show_bar:
+            barre = self.health/self.max_health
+            if self.alive is False:
+                barre = 0
+            pygame.draw.rect(surface, (105, 106, 99), [0, 570, 400, 40])
+            pygame.draw.rect(surface, (30, 225, 30), [0, 570, 400*barre, 40])
 
     def damage(self, amount):
         if self.health - amount >= 0:
