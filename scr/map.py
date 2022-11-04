@@ -39,7 +39,7 @@ class MapManager:
             Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
         ], npcs=[
             NPC("paul", nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
-            NPC("robin", nb_points=4,
+            NPC("robin", nb_points=4, xp=10,
                 portal=Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
         )
         ])
@@ -50,7 +50,9 @@ class MapManager:
             Portal(from_world="house2", origin_point="exit_house", target_world="world", teleport_point="exit_house2")
         ])
 
-        self.register_map("fight")
+        self.register_map("fight", npcs=[
+            NPC("robin", nb_points=1)
+        ])
 
         self.teleport_player("player")
         self.teleport_npcs()
@@ -69,6 +71,7 @@ class MapManager:
                 for npc in self.get_map().npcs_portal:
                     if npc.portal.target_world == portal.target_world:
                         rect = pygame.Rect(npc.position[0], npc.position[1], point.width+3, point.height+3)
+                        npc_value = npc
 
                 if self.player.feet.colliderect(rect):
                     copy_portal = portal
@@ -76,6 +79,7 @@ class MapManager:
                     self.teleport_player(copy_portal.teleport_point)
                     if self.current_map == "fight":
                         self.combat.define(self.player, Player())
+                        self.change_npc(self.get_npc(), npc_value)
 
 
         #collision
@@ -94,6 +98,13 @@ class MapManager:
     def fight(self):
         if self.current_map == "fight":
             self.combat.play()
+
+    def change_npc(self, npc2, npc):
+        npc2.fight_speed = npc.fight_speed
+        npc2.xp = npc.xp
+        npc2.health = npc.health
+        npc2.attack = npc.attack
+        npc2.defense = npc.defense
 
     def teleport_player(self, name):
         point = self.get_object(name)
@@ -133,6 +144,7 @@ class MapManager:
     def get_group(self): return self.get_map().group
 
     def get_walls(self): return self.get_map().walls
+    def get_npc(self): return self.get_map().npcs[0]
 
     def get_object(self, name): return self.get_map().tmx_data.get_object_by_name(name)
 

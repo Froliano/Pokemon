@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="39">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="47">
  <tileset firstgid="1" source="house.tsx"/>
  <tileset firstgid="776" source="nature.tsx"/>
  <layer id="6" name="floor" width="25" height="25">
@@ -68,7 +68,6 @@
   <object id="33" type="collision" x="78.9474" y="320.768" width="240.398" height="14.2248"/>
   <object id="34" type="collision" x="80.3698" y="254.623" width="12.091" height="63.3001"/>
   <object id="35" type="collision" x="307.255" y="254.623" width="12.091" height="64.7226"/>
-  <object id="37" name="npc_path" x="178.388" y="141.593" width="23.7541" height="19.5622"/>
-  <object id="38" x="92.6875" y="140.196"/>
+  <object id="46" name="robin_path1" x="176.525" y="149.977" width="35.864" height="24.6856"/>
  </objectgroup>
 </map>
