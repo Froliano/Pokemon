@@ -15,10 +15,11 @@ class Player(Entity):
         self.defense = defense
         self.alive = True
         self.show_bar = False
+        self.bar_position = [0, 570]
 
     def change_show_bar(self):
         if self.show_bar:
-            self.show_bar = False
+            pass
         else:
             self.show_bar = True
 
@@ -28,8 +29,8 @@ class Player(Entity):
             barre = self.health/self.max_health
             if self.alive is False:
                 barre = 0
-            pygame.draw.rect(surface, (105, 106, 99), [0, 570, 400, 40])
-            pygame.draw.rect(surface, (30, 225, 30), [0, 570, 400*barre, 40])
+            pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1], 400, 30])
+            pygame.draw.rect(surface, (30, 225, 30), [self.bar_position[0], self.bar_position[1], 400*barre, 30])
 
     def damage(self, amount):
         if self.health - amount >= 0:
@@ -49,7 +50,7 @@ class Player(Entity):
 
 class NPC(Player):
 
-    def __init__(self, name, nb_points, dialog = [], portal=None, fight_speed=1, xp=1, health=100, attack=1, defense=1):
+    def __init__(self, name, nb_points, dialog = [], portal=None, fight_speed=1, xp=1, health=10, attack=1, defense=1):
         super().__init__(name, fight_speed, xp, health, attack, defense)
         self.nb_points = nb_points
         self.dialog = dialog
@@ -58,6 +59,7 @@ class NPC(Player):
         self.current_point = 0
         self.default_speed = 1.2
         self.name = name
+        self.bar_position = [400, 0]
 
     def move(self, screen):
         current_point = self.current_point

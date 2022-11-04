@@ -79,9 +79,9 @@ class MapManager:
                     self.teleport_player(copy_portal.teleport_point)
                     if self.current_map == "fight":
                         self.player.change_show_bar()
-                        self.combat.define(self.player, Player())
                         self.change_npc(self.get_npc(), npc_value)
-
+                        self.combat.define(self.player, self.get_npc())
+                        self.get_npc().change_show_bar()
 
         #collision
         for sprite in self.get_group().sprites():
@@ -168,3 +168,4 @@ class MapManager:
 
         for npc in self.get_map().npcs:
             npc.move(screen)
+            npc.update_health_bar(screen)
