@@ -45,7 +45,7 @@ class Combat:
                 elif pressed[pygame.K_2]:
                     self.player.heal()
                     self.clock = 0
-                print(self.ennemy.health)
+                print(self.player.health, self.ennemy.health)
 
         else:
             print("died")

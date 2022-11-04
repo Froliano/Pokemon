@@ -68,7 +68,7 @@ class MapManager:
                 rect = pygame.Rect(point.x, point.y, point.width, point.height)
                 for npc in self.get_map().npcs_portal:
                     if npc.portal.target_world == portal.target_world:
-                        rect = pygame.Rect(npc.position[0], npc.position[1], point.width+5, point.height+5)
+                        rect = pygame.Rect(npc.position[0], npc.position[1], point.width+3, point.height+3)
 
                 if self.player.feet.colliderect(rect):
                     copy_portal = portal

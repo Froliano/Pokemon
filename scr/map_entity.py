@@ -33,7 +33,7 @@ class Player(Entity):
 
 class NPC(Player):
 
-    def __init__(self, name, nb_points, dialog = [], portal=None, fight_speed=1, xp=1, health=10, attack=1, defense=1):
+    def __init__(self, name, nb_points, dialog = [], portal=None, fight_speed=1, xp=1, health=100, attack=1, defense=1):
         super().__init__(name, fight_speed, xp, health, attack, defense)
         self.nb_points = nb_points
         self.dialog = dialog
