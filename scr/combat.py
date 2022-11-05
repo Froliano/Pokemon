@@ -1,7 +1,7 @@
 import pygame
 
 from random import randint
-from scr.map_entity import Player
+from scr.map_entity import Player, NPC
 
 
 class Combat:
@@ -34,17 +34,21 @@ class Combat:
         self.premier_joueur(player, ennemy)
 
     def play(self):
-
+        amount = 3
         if self.player.is_alive():
             self.clock += 1
             if self.clock >= 50:
-                pressed = pygame.key.get_pressed()
-                if pressed[pygame.K_1]:
-                    self.ennemy.damage(3)
+                if type(self.player) is Player:
+                    pressed = pygame.key.get_pressed()
+                    if pressed[pygame.K_1]:
+                        self.ennemy.damage(amount)
+                        self.clock = 0
+                        self.change_joueur()
+                    elif pressed[pygame.K_2]:
+                        self.player.heal()
+                        self.clock = 0
+                        self.change_joueur()
+                elif type(self.player) is NPC:
+                    self.player.fight_turn(self.ennemy, amount)
                     self.clock = 0
                     self.change_joueur()
-                elif pressed[pygame.K_2]:
-                    self.player.heal()
-                    self.clock = 0
-                    self.change_joueur()
-                print(self.player.health, self.ennemy.health)

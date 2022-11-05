@@ -61,9 +61,9 @@ class MapManager:
     def check_npc_collisions(self, dialog_box):
         for sprite in self.get_group().sprites():
             if sprite.feet.colliderect(self.player.feet) and type(sprite) is NPC:
-                dialog_box.execute(sprite.dialog)
+                dialog_box.chat_execute(sprite.dialog)
 
-    def check_collision(self):
+    def check_collision(self, dialog_box):
         #portails
         for portal in self.get_map().portals:
             if portal.from_world == self.current_map:
@@ -84,6 +84,8 @@ class MapManager:
                         self.change_npc(self.get_npc(), npc_value)
                         self.combat.define(self.player, self.get_npc())
                         self.get_npc().change_show_bar()
+                        dialog_box.fight_execute()
+
 
         #collision
         for sprite in self.get_group().sprites():
@@ -164,9 +166,9 @@ class MapManager:
         self.get_group().draw(self.screen)
         self.get_group().center(self.player.rect.center)
 
-    def update(self, screen):
+    def update(self, screen, dialogue_box):
         self.get_group().update()
-        self.check_collision()
+        self.check_collision(dialogue_box)
 
         for npc in self.get_map().npcs:
             npc.move(screen)

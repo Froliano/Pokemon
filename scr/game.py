@@ -32,9 +32,10 @@ class Game:
             self.player.move_right()
 
     def update(self):
-        self.map_manager.update(self.screen)
         self.player.update_health_bar(self.screen)
-        self.dialogue_box.render(self.screen)
+        self.dialogue_box.chat_render(self.screen)
+        self.dialogue_box.fight_render(self.screen)
+        self.map_manager.update(self.screen, self.dialogue_box)
 
     def run(self):
 
