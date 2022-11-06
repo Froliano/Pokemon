@@ -29,6 +29,8 @@ class MapManager:
     def __init__(self, screen, player):
         self.maps = dict() # "house" -> Map("house", walls, group)
         self.current_map = "world"
+        self.previous_map = self.current_map
+        self.previous_player_pos = None
         self.screen = screen
         self.player = player
         self.combat = Combat()
@@ -65,18 +67,21 @@ class MapManager:
 
     def check_collision(self, dialog_box):
         #portails
+        npc_value = None
         for portal in self.get_map().portals:
             if portal.from_world == self.current_map:
                 point = self.get_object(portal.origin_point)
                 rect = pygame.Rect(point.x, point.y, point.width, point.height)
                 for npc in self.get_map().npcs_portal:
                     if npc.portal.target_world == portal.target_world:
-                        rect = pygame.Rect(npc.position[0], npc.position[1], point.width+10, point.height+10)
+                        rect = pygame.Rect(npc.position[0], npc.position[1], point.width, point.height)
                         self.test = rect
                         npc_value = npc
 
                 if self.player.feet.colliderect(rect):
                     copy_portal = portal
+                    self.previous_map = self.current_map
+                    self.previous_player_pos = self.player.position
                     self.current_map = portal.target_world
                     self.teleport_player(copy_portal.teleport_point)
                     if self.current_map == "fight":

@@ -5,7 +5,7 @@ from scr.entity import Entity
 
 class Player(Entity):
 
-    def __init__(self,name = "player", fight_speed=1, xp=1, health=10, attack=1, defense=1):
+    def __init__(self, name = "player", fight_speed=1, xp=1, health=10, attack=1, defense=1):
         super().__init__(name, 0, 0)
         self.fight_speed = fight_speed
         self.speed = 5
@@ -33,7 +33,7 @@ class Player(Entity):
             pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1], 400, 30])
             pygame.draw.rect(surface, (30, 225, 30), [self.bar_position[0], self.bar_position[1], 400*barre, 30])
 
-    def damage(self, amount):
+    def damage(self, amount =3 ) :
         if self.health - amount > 0:
             self.health -= amount
         else:
@@ -62,7 +62,7 @@ class NPC(Player):
         self.name = name
         self.bar_position = [400, 0]
 
-    def fight_turn(self, ennemy, amount):
+    def fight_turn(self, ennemy, amount = 3):
         prc_health = self.health / self.max_health
 
         if prc_health <= 0.2 and random.randint(0, 100)<60:
@@ -74,7 +74,6 @@ class NPC(Player):
         else:
             ennemy.damage(amount)
             print("attack")
-
 
     def move(self, screen):
         current_point = self.current_point

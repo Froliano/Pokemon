@@ -31,11 +31,16 @@ class Game:
         if pressed[pygame.K_RIGHT]:
             self.player.move_right()
 
+    def game_over(self):
+        if self.player.is_alive() is False:
+            self.dialogue_box.game_over_render(self.screen)
+
     def update(self):
         self.player.update_health_bar(self.screen)
         self.dialogue_box.chat_render(self.screen)
         self.dialogue_box.fight_render(self.screen)
         self.map_manager.update(self.screen, self.dialogue_box)
+        self.game_over()
 
     def run(self):
 

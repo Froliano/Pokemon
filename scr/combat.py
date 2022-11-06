@@ -34,14 +34,13 @@ class Combat:
         self.premier_joueur(player, ennemy)
 
     def play(self):
-        amount = 3
         if self.player.is_alive():
             self.clock += 1
             if self.clock >= 50:
                 if type(self.player) is Player:
                     pressed = pygame.key.get_pressed()
                     if pressed[pygame.K_1]:
-                        self.ennemy.damage(amount)
+                        self.ennemy.damage()
                         self.clock = 0
                         self.change_joueur()
                     elif pressed[pygame.K_2]:
@@ -49,6 +48,6 @@ class Combat:
                         self.clock = 0
                         self.change_joueur()
                 elif type(self.player) is NPC:
-                    self.player.fight_turn(self.ennemy, amount)
+                    self.player.fight_turn(self.ennemy)
                     self.clock = 0
                     self.change_joueur()

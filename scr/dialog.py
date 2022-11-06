@@ -15,11 +15,19 @@ class DialogBox:
 
         self.fight_box = pygame.transform.scale(self.chat_box, (400, 120))
 
+        self.game_over_box = pygame.transform.scale(self.chat_box, (860, 600))
+        self.game_over = pygame.image.load("../assets/dialogs/game_over.png")
+        self.game_over = pygame.transform.scale(self.game_over, (600, 600))
+
         self.text_index = 0
         self.letter_index = 0
         self.font = pygame.font.Font("../assets/dialogs/dialog_font.ttf", 18)
         self.reading = False
         self.fight_reading = False
+
+    def game_over_render(self, screen):
+        screen.blit(self.game_over_box, (-30, 0))
+        screen.blit(self.game_over, (100,20))
 
     def chat_execute(self, dialog=[]):
         if self.reading:
