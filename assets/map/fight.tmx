@@ -68,6 +68,6 @@
   <object id="33" type="collision" x="78.9474" y="320.768" width="240.398" height="14.2248"/>
   <object id="34" type="collision" x="80.3698" y="254.623" width="12.091" height="63.3001"/>
   <object id="35" type="collision" x="307.255" y="254.623" width="12.091" height="64.7226"/>
-  <object id="46" name="robin_path1" x="176.525" y="149.977" width="35.864" height="24.6856"/>
+  <object id="46" name="robin_path1" x="174.391" y="148.555" width="35.864" height="24.6856"/>
  </objectgroup>
 </map>
