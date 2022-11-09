@@ -182,5 +182,5 @@ class MapManager:
         self.check_collision(dialogue_box)
 
         for npc in self.get_map().npcs:
-            npc.move(screen)
+            npc.move()
             npc.update_health_bar(screen)

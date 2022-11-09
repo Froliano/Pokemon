@@ -7,20 +7,22 @@ class Player(Entity):
 
     def __init__(self, name = "player", fight_speed=1, xp=1, health=10, attack=1, defense=1):
         super().__init__(name, 0, 0)
-        self.fight_speed = fight_speed
         self.speed = 4
+
+        self.fight_speed = fight_speed
         self.xp = xp
         self.health = health
         self.max_health = health
         self.attack = attack
         self.defense = defense
         self.alive = True
+
         self.show_bar = False
         self.bar_position = [0, 570]
 
     def change_show_bar(self):
         if self.show_bar:
-            pass
+            self.show_bar = False
         else:
             self.show_bar = True
 
@@ -28,20 +30,18 @@ class Player(Entity):
         # dessiner notre barre de vie
         if self.show_bar:
             barre = self.health/self.max_health
-            if self.alive is False:
-                barre = 0
             pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1], 400, 30])
             pygame.draw.rect(surface, (30, 225, 30), [self.bar_position[0], self.bar_position[1], 400*barre, 30])
 
-    def damage(self, amount =3 ) :
-        if self.health - amount > 0:
-            self.health -= amount
-        else:
+    def damage(self, amount = 3) :
+        self.health -= amount
+        if self.health < 0:
+            self.health = 0
             self.alive = False
 
-    def heal(self):
-        if self.health + 2 <= self.max_health:
-            self.health += 2
+    def heal(self, amount = 2):
+        if self.health + amount <= self.max_health:
+            self.health += amount
         else:
             self.health = self.max_health
 
@@ -54,15 +54,17 @@ class NPC(Player):
     def __init__(self, name, nb_points, dialog = [], portal=None, fight_speed=1, xp=1, health=10, attack=1, defense=1):
         super().__init__(name, fight_speed, xp, health, attack, defense)
         self.nb_points = nb_points
-        self.dialog = dialog
         self.points = []
-        self.portal = portal
         self.current_point = 0
-        self.default_speed = 1.2
+
         self.name = name
+        self.default_speed = 1.2
+        self.dialog = dialog
+        self.portal = portal
+
         self.bar_position = [400, 0]
 
-    def move(self, screen):
+    def move(self):
         current_point = self.current_point
         target_point = self.current_point + 1
 
