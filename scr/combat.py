@@ -62,9 +62,3 @@ class Combat:
             NPC.heal()
         else:
             ennemy.damage(amount)
-
-    def heal(self):
-        if self.health + 2 <= self.max_health:
-            self.health += 2
-        else:
-            self.health = self.max_health
