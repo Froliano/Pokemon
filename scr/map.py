@@ -6,6 +6,7 @@ from scr.combat import Combat
 
 
 @dataclass
+#donnée de la classe portail
 class Portal:
     from_world: str
     origin_point: str
@@ -14,6 +15,7 @@ class Portal:
 
 
 @dataclass
+#donnée de la classe Map
 class Map:
     name: str
     walls: list[pygame.Rect]
@@ -36,6 +38,7 @@ class MapManager:
         self.combat = Combat()
         self.test = pygame.Rect(0, 0, 0, 0)
 
+        #chargement des map/portail rataché/NPC rattaché
         self.register_map("world", portals=[
             Portal(from_world="world", origin_point="enter_house1", target_world="house", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
@@ -60,11 +63,15 @@ class MapManager:
         self.teleport_player("player")
         self.teleport_npcs()
 
+    #on regarde si un npc est en contact avec une collision
     def check_npc_collisions(self, dialog_box):
         for sprite in self.get_group().sprites():
             if sprite.feet.colliderect(self.player.feet) and type(sprite) is NPC:
                 dialog_box.chat_execute(sprite.dialog)
 
+
+
+    #on regarde si le joueur est en contact avec une collision
     def check_collision(self, dialog_box):
         #portails
         npc_value = None
@@ -75,7 +82,6 @@ class MapManager:
                 for npc in self.get_map().npcs_portal:
                     if npc.portal.target_world == portal.target_world:
                         rect = pygame.Rect(npc.position[0], npc.position[1], point.width, point.height)
-                        self.test = rect
                         npc_value = npc
 
                 if self.player.feet.colliderect(rect):

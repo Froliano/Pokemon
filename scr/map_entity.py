@@ -62,19 +62,6 @@ class NPC(Player):
         self.name = name
         self.bar_position = [400, 0]
 
-    def fight_turn(self, ennemy, amount = 3):
-        prc_health = self.health / self.max_health
-
-        if prc_health <= 0.2 and random.randint(0, 100)<60:
-            self.heal()
-            print("heal 1")
-        elif prc_health <= 0.5 and random.randint(0, 100)<40:
-            self.heal()
-            print("heal 2")
-        else:
-            ennemy.damage(amount)
-            print("attack")
-
     def move(self, screen):
         current_point = self.current_point
         target_point = self.current_point + 1
