@@ -50,7 +50,9 @@ class Combat:
         if self.player.is_alive():
             self.clock += 1
             if self.clock >= 30:
-                if type(self.player) is Player:
+                if type(self.player) is NPC:
+                    self.fight_turn(self.player, self.ennemy)
+                elif type(self.player) is Player:
                     pressed = pygame.key.get_pressed()
                     if pressed[pygame.K_1]:
                         self.ennemy.damage()
@@ -60,5 +62,3 @@ class Combat:
                         self.player.heal()
                         self.clock = 0
                         self.change_joueur()
-                elif type(self.player) is NPC:
-                    self.fight_turn(self.player, self.ennemy)

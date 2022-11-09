@@ -35,7 +35,7 @@ class Player(Entity):
 
     def damage(self, amount = 3) :
         self.health -= amount
-        if self.health < 0:
+        if self.health <= 0:
             self.health = 0
             self.alive = False
 
@@ -51,16 +51,16 @@ class Player(Entity):
 
 class NPC(Player):
 
-    def __init__(self, name, nb_points, dialog = [], portal=None, fight_speed=1, xp=1, health=10, attack=1, defense=1):
+    def __init__(self, name, nb_points, dialog = [], id=0, fight_speed=1, xp=1, health=10, attack=1, defense=1):
         super().__init__(name, fight_speed, xp, health, attack, defense)
         self.nb_points = nb_points
         self.points = []
         self.current_point = 0
 
         self.name = name
+        self.id = id
         self.default_speed = 1.2
         self.dialog = dialog
-        self.portal = portal
 
         self.bar_position = [400, 0]
 

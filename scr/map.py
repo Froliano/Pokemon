@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import pygame, pytmx, pyscroll
 
-from scr.map_entity import NPC, Player
+from scr.map_entity import NPC
 from scr.combat import Combat
 
 
@@ -12,6 +12,7 @@ class Portal:
     origin_point: str
     target_world: str
     teleport_point: str
+    npc_id: int = None
 
 
 @dataclass
@@ -22,7 +23,6 @@ class Map:
     group: pyscroll.PyscrollGroup
     tmx_data: pytmx.TiledMap
     portals: list[Portal]
-    npcs_portal: list[Portal]
     npcs: list[NPC]
 
 
@@ -33,21 +33,19 @@ class MapManager:
         self.current_map = "world"
         self.previous_map = self.current_map
         self.previous_player_pos = None
+
         self.screen = screen
         self.player = player
         self.combat = Combat()
-        self.test = pygame.Rect(0, 0, 0, 0)
 
         #chargement des map/portail rataché/NPC rattaché
         self.register_map("world", portals=[
             Portal(from_world="world", origin_point="enter_house1", target_world="house", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
-            Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
+            Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight", npc_id=1)
         ], npcs=[
-            NPC("paul", nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
-            NPC("robin", nb_points=4, xp=10,
-                portal=Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight")
-        )
+            NPC("paul", id=0, nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
+            NPC("robin", id=1, nb_points=4, xp=10)
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="exit_house1")
@@ -55,9 +53,8 @@ class MapManager:
         self.register_map("house2", portals=[
             Portal(from_world="house2", origin_point="exit_house", target_world="world", teleport_point="exit_house2")
         ])
-
         self.register_map("fight", npcs=[
-            NPC("robin", nb_points=1)
+            NPC("robin", id=2, nb_points=1)
         ])
 
         self.teleport_player("player")
@@ -69,8 +66,6 @@ class MapManager:
             if sprite.feet.colliderect(self.player.feet) and type(sprite) is NPC:
                 dialog_box.chat_execute(sprite.dialog)
 
-
-
     #on regarde si le joueur est en contact avec une collision
     def check_collision(self, dialog_box):
         #portails
@@ -78,11 +73,13 @@ class MapManager:
         for portal in self.get_map().portals:
             if portal.from_world == self.current_map:
                 point = self.get_object(portal.origin_point)
-                rect = pygame.Rect(point.x, point.y, point.width, point.height)
-                for npc in self.get_map().npcs_portal:
-                    if npc.portal.target_world == portal.target_world:
-                        rect = pygame.Rect(npc.position[0], npc.position[1], point.width, point.height)
-                        npc_value = npc
+                if portal.npc_id is not None:
+                    for npc in self.get_npcs():
+                        if npc.id == portal.npc_id:
+                            rect = pygame.Rect(npc.position[0], npc.position[1], point.width, point.height)
+                            npc_value = npc
+                else:
+                    rect = pygame.Rect(point.x, point.y, point.width, point.height)
 
                 if self.player.feet.colliderect(rect):
                     copy_portal = portal
@@ -92,9 +89,9 @@ class MapManager:
                     self.teleport_player(copy_portal.teleport_point)
                     if self.current_map == "fight":
                         self.player.change_show_bar()
-                        self.change_npc(self.get_npc(), npc_value)
-                        self.combat.define(self.player, self.get_npc())
-                        self.get_npc().change_show_bar()
+                        self.change_npc(self.get_npcs()[0], npc_value)
+                        self.combat.define(self.player, self.get_npcs()[0])
+                        self.get_npcs()[0].change_show_bar()
                         dialog_box.fight_execute()
 
 
@@ -149,18 +146,16 @@ class MapManager:
         # recuperer tout les npcs pour les ajouter au groupe
         for npc in npcs:
             group.add(npc)
-            if npc.portal:
-                npcs_portal.append(npc)
 
         # Creer un objet map
-        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs_portal, npcs)
+        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs)
 
     def get_map(self): return self.maps[self.current_map]
 
     def get_group(self): return self.get_map().group
 
     def get_walls(self): return self.get_map().walls
-    def get_npc(self): return self.get_map().npcs[0]
+    def get_npcs(self): return self.get_map().npcs
 
     def get_object(self, name): return self.get_map().tmx_data.get_object_by_name(name)
 
