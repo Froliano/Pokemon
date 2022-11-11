@@ -38,6 +38,7 @@ class Player(Entity):
         if self.health <= 0:
             self.health = 0
             self.alive = False
+            self.change_show_bar()
 
     def heal(self, amount = 2):
         if self.health + amount <= self.max_health:

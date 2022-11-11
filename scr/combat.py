@@ -11,6 +11,7 @@ class Combat:
         self.player = Player()
         self.ennemy = Player()
         self.clock = 0
+        self.run = False
 
     def premier_joueur(self, p1, p2):
         if p1.speed > p2.speed:
@@ -44,6 +45,7 @@ class Combat:
         self.change_joueur()
 
     def define(self, player, ennemy):
+        self.run = True
         self.premier_joueur(player, ennemy)
 
     def play(self):
@@ -62,3 +64,5 @@ class Combat:
                         self.player.heal()
                         self.clock = 0
                         self.change_joueur()
+        if not self.player.is_alive() and type(self.player) is NPC:
+            self.run = False

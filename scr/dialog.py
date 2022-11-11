@@ -24,23 +24,17 @@ class DialogBox:
 
         self.font = pygame.font.Font("../assets/dialogs/dialog_font.ttf", 18)
         self.reading = False
-        self.fight_reading = False
 
     def game_over_render(self, screen):
         screen.blit(self.game_over_box, (-30, 0))
         screen.blit(self.game_over, (100,20))
 
-    def fight_execute(self):
-        if not self.fight_reading:
-            self.fight_reading = True
-
     def fight_render(self, screen):
-        if self.fight_reading:
-            screen.blit(self.fight_box, (self.fX_POSITION, self.fY_POSITION))
-            text1 = self.font.render("1: attack", False, (0, 0, 0))
-            text2 = self.font.render("2: heal", False, (0, 0, 0))
-            screen.blit(text1, (self.fX_POSITION +60, self.fY_POSITION +30))
-            screen.blit(text2, (self.fX_POSITION +60, self.fY_POSITION +70))
+        screen.blit(self.fight_box, (self.fX_POSITION, self.fY_POSITION))
+        text1 = self.font.render("1: attack", False, (0, 0, 0))
+        text2 = self.font.render("2: heal", False, (0, 0, 0))
+        screen.blit(text1, (self.fX_POSITION +60, self.fY_POSITION +30))
+        screen.blit(text2, (self.fX_POSITION +60, self.fY_POSITION +70))
 
     def chat_execute(self, dialog=[]):
         if self.reading:

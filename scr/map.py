@@ -33,7 +33,6 @@ class MapManager:
         self.maps = dict() # "house" -> Map("house", walls, group)
         self.current_map = "world"
         self.previous_map = self.current_map
-        self.previous_player_pos = None
 
         self.screen = screen
         self.player = player
@@ -72,7 +71,7 @@ class MapManager:
         for portal in self.get_map().portals:
             if portal.from_world == self.current_map:
                 point = self.get_object(portal.origin_point)
-                if portal.npc_id is not None:
+                if portal.npc_id is not None and type(self.get_npc_by_id(portal.npc_id)) is NPC:
                     npc = self.get_npc_by_id(portal.npc_id)
                     rect = pygame.Rect(npc.position[0], npc.position[1], point.width, point.height)
                     npc_value = npc
@@ -81,6 +80,7 @@ class MapManager:
 
                 if self.player.feet.colliderect(rect):
                     # copy_portal = portal
+                    self.save_data(npc_value)
                     self.current_map = portal.target_world
                     self.start_fight(npc_value, portal.target_world)
                     self.teleport_player(portal.teleport_point)
@@ -99,19 +99,26 @@ class MapManager:
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()
 
-    def start_fight(self, npc_value, target):
+    def save_data(self, npc):
+        self.previous_map = self.current_map
+        self.get_group().remove(npc)
+
+    def start_fight(self, npc, target):
         if target == "fight":
             self.player.change_show_bar()
-            self.get_group().add(npc_value)
+            self.get_group().add(npc)
             self.get_npc_by_id(1).teleport_path(self.get_map().npc_path)
             self.combat.define(self.player, self.get_npc_by_id(1))
             self.get_npc_by_id(1).change_show_bar()
-            # self.previous_map = self.current_map
-            # self.previous_player_pos = self.player.position
 
-    def fight(self):
+    def fight(self, screen, dialog_box):
         if self.current_map == "fight":
             self.combat.play()
+            dialog_box.fight_render(screen)
+            if not self.combat.run:
+                self.current_map = self.previous_map
+                self.teleport_player("player")
+                self.player.change_show_bar()
 
     def teleport_player(self, name):
         point = self.get_object(name)
@@ -151,7 +158,6 @@ class MapManager:
     def get_group(self): return self.get_map().group
 
     def get_walls(self): return self.get_map().walls
-    def get_npcs(self): return self.get_map().npcs
     def get_object(self, name): return self.get_map().tmx_data.get_object_by_name(name)
 
     def get_npc_by_id(self, npc_id):
@@ -175,7 +181,8 @@ class MapManager:
     def update(self, screen):
         self.get_group().update()
         self.check_collision()
-        self.get_npc_by_id(1).update_health_bar(screen)
+        if type(self.get_npc_by_id(1)) is NPC:
+            self.get_npc_by_id(1).update_health_bar(screen)
 
         for npc in self.get_map().npcs:
             npc.move()
