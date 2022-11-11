@@ -38,7 +38,7 @@ class Game:
     def update(self):
         self.map_manager.draw()
         self.map_manager.fight()
-        self.map_manager.update(self.screen, self.dialogue_box)
+        self.map_manager.update(self.screen)
 
         self.player.update_health_bar(self.screen)
         self.dialogue_box.chat_render(self.screen)

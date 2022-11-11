@@ -92,6 +92,12 @@ class NPC(Player):
         self.position[1] = location.y
         self.save_location()
 
+    def teleport_path(self, obj):
+        self.move_down()
+        self.position[0] = obj.x
+        self.position[1] = obj.y
+        self.save_location()
+
     def load_points(self, tmx_data):
         for num in range(1, self.nb_points + 1):
             point = tmx_data.get_object_by_name(f"{self.name}_path{num}")
