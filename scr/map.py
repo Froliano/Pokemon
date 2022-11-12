@@ -33,6 +33,7 @@ class MapManager:
         self.maps = dict() # "house" -> Map("house", walls, group)
         self.current_map = "world"
         self.previous_map = self.current_map
+        self.current_npc = None
 
         self.screen = screen
         self.player = player
@@ -42,10 +43,12 @@ class MapManager:
         self.register_map("world", portals=[
             Portal(from_world="world", origin_point="enter_house1", target_world="house", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
-            Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight", npc_id=1)
+            Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight", npc_id=1),
+            Portal(from_world="world", origin_point="fight2", target_world="fight", teleport_point="spawn_fight", npc_id=2)
         ], npcs=[
             NPC("paul", id=0, nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
-            NPC("robin", id=1, nb_points=4)
+            NPC("paul2", id=1, nb_points=2),
+            NPC("robin", id=2, nb_points=4)
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="exit_house1")
@@ -70,22 +73,21 @@ class MapManager:
     #on regarde si le joueur est en contact avec une collision
     def check_collision(self):
         #portails
-        npc_value = None
         for portal in self.get_map().portals:
             if portal.from_world == self.current_map:
                 point = self.get_object(portal.origin_point)
                 if portal.npc_id is not None and type(self.get_npc_by_id(portal.npc_id)) is NPC:
                     npc = self.get_npc_by_id(portal.npc_id)
                     rect = pygame.Rect(npc.position[0], npc.position[1], point.width, point.height)
-                    npc_value = npc
+                    self.current_npc = npc
                 else:
                     rect = pygame.Rect(point.x, point.y, point.width, point.height)
 
                 if self.player.feet.colliderect(rect):
                     # copy_portal = portal
-                    self.save_data(npc_value)
+                    self.save_data(self.current_npc)
                     self.current_map = portal.target_world
-                    self.start_fight(npc_value, portal.target_world)
+                    self.start_fight(self.current_npc, portal.target_world)
                     self.teleport_player(portal.teleport_point)
 
 
@@ -120,6 +122,7 @@ class MapManager:
             self.combat.play()
             dialog_box.fight_render(screen)
             if not self.combat.run:
+                self.get_group().remove(self.current_npc)
                 self.current_map = self.previous_map
                 self.teleport_player("player")
                 self.player.change_show_bar()
