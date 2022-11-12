@@ -5,13 +5,15 @@ from scr.entity import Entity
 
 class Player(Entity):
 
-    def __init__(self, name = "player", fight_speed=1, xp=1, health=10, attack=1, defense=1):
+    def __init__(self, name = "player", fight_speed=1, xp=0, health=10, attack=1, defense=0):
         super().__init__(name, 0, 0)
         self.default_speed = 4
         self.speed = self.default_speed
 
         self.fight_speed = fight_speed
         self.xp = xp
+        self.max_xp = 100
+        self.level = 1
         self.health = health
         self.max_health = health
         self.attack = attack
@@ -19,7 +21,23 @@ class Player(Entity):
         self.alive = True
 
         self.show_bar = False
-        self.bar_position = [0, 570]
+        self.bar_position = [0, 560]
+
+    def add_xp(self, amount):
+        self.xp += amount
+        if self.xp >= self.max_xp:
+            current_xp = self.xp - self.max_xp
+            self.xp = 0 + current_xp
+            self.level_up()
+
+    def level_up(self):
+        self.level += 1
+        self.max_xp = int(self.max_xp * 1.09)
+
+        self.max_health += 10
+        self.attack += 1
+        self.defense += 1
+        print("level up")
 
     def change_show_bar(self):
         if self.show_bar:
@@ -30,12 +48,20 @@ class Player(Entity):
     def update_health_bar(self, surface):
         # dessiner notre barre de vie
         if self.show_bar:
-            barre = self.health/self.max_health
-            pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1], 400, 30])
-            pygame.draw.rect(surface, (30, 225, 30), [self.bar_position[0], self.bar_position[1], 400*barre, 30])
+            health_barre = self.health/self.max_health
+            xp_barre = self.xp/self.max_xp
+            # barre de vie
+            pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1], 400, 40])
+            pygame.draw.rect(surface, (30, 225, 30), [self.bar_position[0], self.bar_position[1], 400*health_barre, 40])
+
+            # barre d'exp
+            pygame.draw.rect(surface, (196, 196, 196), [self.bar_position[0], self.bar_position[1]+30, 400, 10])
+            pygame.draw.rect(surface, (36, 168, 240), [self.bar_position[0], self.bar_position[1]+30, 400*xp_barre, 10])
 
     def damage(self, amount = 3) :
-        self.health -= amount
+        damage = amount - self.defense
+        if damage > 0:
+            self.health -= damage
         if self.health <= 0:
             self.health = 0
             self.alive = False
@@ -56,7 +82,7 @@ class Player(Entity):
 
 class NPC(Player):
 
-    def __init__(self, name, nb_points, dialog = [], id=0, fight_speed=1, xp=1, health=10, attack=1, defense=1):
+    def __init__(self, name, nb_points, dialog = [], id=0, fight_speed=1, xp=1, health=10, attack=1, defense=0):
         super().__init__(name, fight_speed, xp, health, attack, defense)
         self.nb_points = nb_points
         self.points = []

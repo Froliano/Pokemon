@@ -32,7 +32,7 @@ class Combat:
     def change_joueur(self):
         self.player, self.ennemy = self.ennemy, self.player
 
-    def fight_turn(self, NPC, ennemy, amount=3):
+    def fight_turn(self, NPC, ennemy):
         prc_health = NPC.health / NPC.max_health
 
         if prc_health <= 0.2 and random.randint(0, 100) < 60:
@@ -40,7 +40,7 @@ class Combat:
         elif prc_health <= 0.5 and random.randint(0, 100) < 40:
             NPC.heal()
         else:
-            ennemy.damage(amount)
+            ennemy.damage(self.player.attack)
         self.clock = 0
         self.change_joueur()
 
@@ -57,7 +57,7 @@ class Combat:
                 elif type(self.player) is Player:
                     pressed = pygame.key.get_pressed()
                     if pressed[pygame.K_1]:
-                        self.ennemy.damage()
+                        self.ennemy.damage(self.player.attack)
                         self.clock = 0
                         self.change_joueur()
                     elif pressed[pygame.K_2]:
@@ -65,4 +65,5 @@ class Combat:
                         self.clock = 0
                         self.change_joueur()
         if not self.player.is_alive() and type(self.player) is NPC:
+            self.ennemy.add_xp(self.player.xp)
             self.run = False

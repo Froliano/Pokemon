@@ -15,7 +15,7 @@ class Game:
 
         # generer un joueur
         self.combat = Combat()
-        self.player = Player()
+        self.player = Player(attack=3)
         self.map_manager = MapManager(self.screen, self.player)
         self.dialogue_box = DialogBox()
 

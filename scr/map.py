@@ -47,7 +47,7 @@ class MapManager:
             Portal(from_world="world", origin_point="fight2", target_world="fight", teleport_point="spawn_fight", npc_id=2)
         ], npcs=[
             NPC("paul", id=0, nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
-            NPC("paul2", id=1, nb_points=2),
+            NPC("paul2", id=1, nb_points=2, xp=110),
             NPC("robin", id=2, nb_points=2)
         ])
         self.register_map("house", portals=[
