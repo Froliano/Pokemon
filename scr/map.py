@@ -48,7 +48,7 @@ class MapManager:
         ], npcs=[
             NPC("paul", id=0, nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
             NPC("paul2", id=1, nb_points=2),
-            NPC("robin", id=2, nb_points=4)
+            NPC("robin", id=2, nb_points=2)
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="exit_house1")
@@ -126,6 +126,7 @@ class MapManager:
                 self.current_map = self.previous_map
                 self.teleport_player("player")
                 self.player.change_show_bar()
+                self.player.regen()
 
     def teleport_player(self, name):
         point = self.get_object(name)

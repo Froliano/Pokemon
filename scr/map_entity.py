@@ -47,6 +47,9 @@ class Player(Entity):
         else:
             self.health = self.max_health
 
+    def regen(self):
+        self.health = self.max_health
+
     def is_alive(self):
         return self.alive
 
@@ -94,6 +97,7 @@ class NPC(Player):
 
         if self.feet.collidepoint(target_rect.center):
             self.current_point = target_point
+
 
     def teleport_spawn(self):
         location = self.points[self.current_point]
