@@ -63,6 +63,9 @@ class MapManager:
         for sprite in self.get_group().sprites():
             if sprite.feet.colliderect(self.player.feet) and type(sprite) is NPC:
                 dialog_box.chat_execute(sprite.dialog)
+                self.player.speed = 0
+                if not dialog_box.reading:
+                    self.player.speed = self.player.default_speed
 
     #on regarde si le joueur est en contact avec une collision
     def check_collision(self):

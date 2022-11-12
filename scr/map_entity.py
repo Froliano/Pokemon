@@ -7,7 +7,8 @@ class Player(Entity):
 
     def __init__(self, name = "player", fight_speed=1, xp=1, health=10, attack=1, defense=1):
         super().__init__(name, 0, 0)
-        self.speed = 4
+        self.default_speed = 4
+        self.speed = self.default_speed
 
         self.fight_speed = fight_speed
         self.xp = xp
