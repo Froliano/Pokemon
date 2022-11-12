@@ -43,6 +43,7 @@ class MapManager:
         self.register_map("world", portals=[
             Portal(from_world="world", origin_point="enter_house1", target_world="house", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
+            Portal(from_world="world", origin_point="enter_house3", target_world="house3", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight", npc_id=1),
             Portal(from_world="world", origin_point="fight2", target_world="fight", teleport_point="spawn_fight", npc_id=2)
         ], npcs=[
@@ -55,6 +56,9 @@ class MapManager:
         ])
         self.register_map("house2", portals=[
             Portal(from_world="house2", origin_point="exit_house", target_world="world", teleport_point="exit_house2")
+        ])
+        self.register_map("house3", portals=[
+            Portal(from_world="house3", origin_point="exit_house", target_world="world", teleport_point="exit_house3")
         ])
         self.register_map("fight")
 
@@ -85,9 +89,9 @@ class MapManager:
 
                 if self.player.feet.colliderect(rect):
                     # copy_portal = portal
-                    self.save_data(self.current_npc)
+                    self.previous_map = self.current_map
                     self.current_map = portal.target_world
-                    self.start_fight(self.current_npc, portal.target_world)
+                    self.start_fight()
                     self.teleport_player(portal.teleport_point)
 
 
@@ -104,15 +108,11 @@ class MapManager:
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()
 
-    def save_data(self, npc):
-        self.previous_map = self.current_map
-        self.get_group().remove(npc)
-
-    def start_fight(self, npc, target):
-        if target == "fight":
+    def start_fight(self):
+        if self.current_map == "fight":
             self.player.change_show_bar()
-            self.get_group().add(npc)
-            npc.id = 0
+            self.get_group().add(self.current_npc)
+            self.current_npc.id = 0
             self.get_npc_by_id(0).teleport_path(self.get_map().npc_path)
             self.combat.define(self.player, self.get_npc_by_id(0))
             self.get_npc_by_id(0).change_show_bar()
@@ -124,6 +124,7 @@ class MapManager:
             if not self.combat.run:
                 self.get_group().remove(self.current_npc)
                 self.current_map = self.previous_map
+                self.get_group().remove(self.current_npc)
                 self.teleport_player("player")
                 self.player.change_show_bar()
                 self.player.regen()
