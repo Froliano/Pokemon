@@ -12,6 +12,7 @@ class Combat:
         self.ennemy = Player()
         self.clock = 0
         self.run = False
+        self.alls_attack = [Punch, Fire_ball, Thunder]
 
     def premier_joueur(self, p1, p2):
         if p1.speed > p2.speed:
@@ -48,6 +49,25 @@ class Combat:
         self.run = True
         self.premier_joueur(player, ennemy)
 
+    def chose_attack(self, attack_name):
+        for attack in self.alls_attack:
+            if attack_name == attack.name:
+                return attack
+        return attack_name
+
+    def damage(self, attack):
+        attack = self.chose_attack(attack)
+        if attack == "heal":
+            self.player.heal()
+            self.clock = 0
+            self.change_joueur()
+        elif self.player.mana >= attack.mana_use:
+            self.player.withdraw_mana(attack.mana_use)
+            dgt = (self.player.level * self.player.attack * attack.puissance) // (self.ennemy.defense * 10)
+            self.ennemy.damage(dgt)
+            self.clock = 0
+            self.change_joueur()
+
     def play(self):
         if self.player.is_alive():
             self.clock += 1
@@ -57,13 +77,32 @@ class Combat:
                 elif type(self.player) is Player:
                     pressed = pygame.key.get_pressed()
                     if pressed[pygame.K_1]:
-                        self.ennemy.damage(self.player.attack)
-                        self.clock = 0
-                        self.change_joueur()
+                        self.damage(self.player.actions[1])
                     elif pressed[pygame.K_2]:
-                        self.player.heal()
-                        self.clock = 0
-                        self.change_joueur()
+                        self.damage(self.player.actions[2])
+                    elif pressed[pygame.K_3]:
+                        self.damage(self.player.actions[3])
+                    elif pressed[pygame.K_4]:
+                        self.damage(self.player.actions[4])
+
         if not self.player.is_alive() and type(self.player) is NPC:
             self.ennemy.add_xp(self.player.xp)
             self.run = False
+
+
+class Punch:
+    name = "Punch"
+    puissance = 10
+    mana_use = 0
+
+
+class Fire_ball:
+    name = "Fire_ball"
+    puissance = 15
+    mana_use = 5
+
+
+class Thunder:
+    name = "Thunder"
+    puissance = 25
+    mana_use = 10

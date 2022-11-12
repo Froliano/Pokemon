@@ -49,7 +49,7 @@ class MapManager:
         ], npcs=[
             NPC("paul", id=0, nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
             NPC("paul2", id=1, nb_points=2, xp=110),
-            NPC("robin", id=2, nb_points=2)
+            NPC("robin", id=2, nb_points=2, defense=1)
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="exit_house1")
@@ -120,7 +120,7 @@ class MapManager:
     def fight(self, screen, dialog_box):
         if self.current_map == "fight":
             self.combat.play()
-            dialog_box.fight_render(screen)
+            dialog_box.fight_render(self.player, screen)
             if not self.combat.run:
                 self.get_group().remove(self.current_npc)
                 self.current_map = self.previous_map

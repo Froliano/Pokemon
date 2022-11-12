@@ -29,12 +29,20 @@ class DialogBox:
         screen.blit(self.game_over_box, (-30, 0))
         screen.blit(self.game_over, (100,20))
 
-    def fight_render(self, screen):
+    def fight_render(self, player, screen):
+        texts = []
         screen.blit(self.fight_box, (self.fX_POSITION, self.fY_POSITION))
-        text1 = self.font.render("1: attack", False, (0, 0, 0))
-        text2 = self.font.render("2: heal", False, (0, 0, 0))
-        screen.blit(text1, (self.fX_POSITION +60, self.fY_POSITION +30))
-        screen.blit(text2, (self.fX_POSITION +60, self.fY_POSITION +70))
+        for attack in player.actions:
+            texts.append(self.font.render(f"{attack} : {player.actions[attack]}", False, (0, 0, 0)))
+
+        x, y = 60,0
+        for i in range(len(texts)):
+            if i%2 == 0:
+                x += 120*i//2
+                y = 30
+            else:
+                y = 60
+            screen.blit(texts[i], (self.fX_POSITION +x, self.fY_POSITION +y))
 
     def chat_execute(self, dialog=[]):
         if self.reading:
