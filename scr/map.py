@@ -110,9 +110,10 @@ class MapManager:
         if target == "fight":
             self.player.change_show_bar()
             self.get_group().add(npc)
-            self.get_npc_by_id(1).teleport_path(self.get_map().npc_path)
-            self.combat.define(self.player, self.get_npc_by_id(1))
-            self.get_npc_by_id(1).change_show_bar()
+            npc.id = 0
+            self.get_npc_by_id(0).teleport_path(self.get_map().npc_path)
+            self.combat.define(self.player, self.get_npc_by_id(0))
+            self.get_npc_by_id(0).change_show_bar()
 
     def fight(self, screen, dialog_box):
         if self.current_map == "fight":
@@ -184,8 +185,8 @@ class MapManager:
     def update(self, screen):
         self.get_group().update()
         self.check_collision()
-        if type(self.get_npc_by_id(1)) is NPC:
-            self.get_npc_by_id(1).update_health_bar(screen)
+        if type(self.get_npc_by_id(0)) is NPC:
+            self.get_npc_by_id(0).update_health_bar(screen)
 
         for npc in self.get_map().npcs:
             npc.move()

@@ -66,6 +66,13 @@ class NPC(Player):
 
         self.bar_position = [400, 0]
 
+    def update_health_bar(self, surface):
+        # dessiner notre barre de vie
+        if self.show_bar:
+            barre = 1 - self.health/self.max_health
+            pygame.draw.rect(surface, (30, 225, 30), [self.bar_position[0], self.bar_position[1], 400, 30])
+            pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1], 400*barre, 30])
+
     def move(self):
         current_point = self.current_point
         target_point = self.current_point + 1
