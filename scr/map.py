@@ -44,6 +44,7 @@ class MapManager:
             Portal(from_world="world", origin_point="enter_house1", target_world="house", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="enter_house3", target_world="house3", teleport_point="spawn_house"),
+            Portal(from_world="world", origin_point="shop", target_world="shop", teleport_point="spawn_shop"),
             Portal(from_world="world", origin_point="fight", target_world="fight", teleport_point="spawn_fight", npc_id=1),
             Portal(from_world="world", origin_point="fight2", target_world="fight", teleport_point="spawn_fight", npc_id=2)
         ], npcs=[
@@ -59,6 +60,12 @@ class MapManager:
         ])
         self.register_map("house3", portals=[
             Portal(from_world="house3", origin_point="exit_house", target_world="world", teleport_point="exit_house3")
+        ])
+
+        self.register_map("shop", portals=[
+            Portal(from_world="shop", origin_point="exit_shop", target_world="world", teleport_point="exit_shop")
+        ], npcs=[
+            NPC("paul", id=0, nb_points=1)
         ])
         self.register_map("fight")
 
@@ -152,7 +159,10 @@ class MapManager:
                 npc_path = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
 
         # dessiner le groupe de calques
-        group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=5)
+        if name == "shop":
+            group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=2)
+        else:
+            group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=5)
         group.add(self.player)
 
         # recuperer tout les npcs pour les ajouter au groupe

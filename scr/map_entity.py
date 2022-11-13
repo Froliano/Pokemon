@@ -4,7 +4,7 @@ from scr.entity import Entity
 
 class Player(Entity):
 
-    def __init__(self, name = "player", fight_speed=1, xp=0, health=10, attack=1, defense=1, mana=10, money=10):
+    def __init__(self, name = "player", fight_speed=1, xp=0, health=10, attack=1, defense=1, mana=10, money=0):
         super().__init__(name, 0, 0)
         self.default_speed = 4
         self.speed = self.default_speed

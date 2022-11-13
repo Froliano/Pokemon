@@ -32,7 +32,7 @@ class DialogBox:
 
     def money_render(self, player,  screen):
         text = self.money_font.render(f"{player.money} $", False, (0, 0, 0))
-        screen.blit(text, (740, 10))
+        screen.blit(text, text.get_rect(topright=(780, 10)))
 
     def fight_render(self, player, screen):
         texts = []
