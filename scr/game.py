@@ -42,6 +42,7 @@ class Game:
 
         self.player.update_health_bar(self.screen)
         self.dialogue_box.chat_render(self.screen)
+        self.dialogue_box.money_render(self.player, self.screen)
 
         self.game_over()
 

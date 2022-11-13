@@ -87,6 +87,7 @@ class Combat:
 
         if not self.player.is_alive() and type(self.player) is NPC:
             self.ennemy.add_xp(self.player.xp)
+            self.ennemy.add_money(self.player.money)
             self.run = False
 
 

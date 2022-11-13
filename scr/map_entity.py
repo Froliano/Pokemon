@@ -4,7 +4,7 @@ from scr.entity import Entity
 
 class Player(Entity):
 
-    def __init__(self, name = "player", fight_speed=1, xp=0, health=10, attack=1, defense=1, mana=10):
+    def __init__(self, name = "player", fight_speed=1, xp=0, health=10, attack=1, defense=1, mana=10, money=10):
         super().__init__(name, 0, 0)
         self.default_speed = 4
         self.speed = self.default_speed
@@ -19,14 +19,15 @@ class Player(Entity):
         self.defense = defense
         self.mana = mana
         self.max_mana = mana
+        self.alive = True
+
         self.actions = {
             1 : "Punch",
             2 : "heal",
             3 : "Fire_ball",
             4 : "Thunder"
         }
-        self.alive = True
-
+        self.money = money
         self.show_bar = False
         self.bar_position = [0, 560]
 
@@ -36,6 +37,9 @@ class Player(Entity):
             current_xp = self.xp - self.max_xp
             self.xp = 0 + current_xp
             self.level_up()
+
+    def add_money(self, amount):
+        self.money += amount
 
     def level_up(self):
         self.level += 1
@@ -91,8 +95,8 @@ class Player(Entity):
 
 class NPC(Player):
 
-    def __init__(self, name, nb_points, dialog = [], id=0, fight_speed=1, xp=1, health=10, attack=1, defense=1):
-        super().__init__(name, fight_speed, xp, health, attack, defense)
+    def __init__(self, name, nb_points, dialog = [], id=0, fight_speed=1, xp=1, health=10, attack=1, defense=1, money=0):
+        super().__init__(name, fight_speed, xp, health, attack, defense, money)
         self.nb_points = nb_points
         self.points = []
         self.current_point = 0
@@ -132,7 +136,6 @@ class NPC(Player):
 
         if self.feet.collidepoint(target_rect.center):
             self.current_point = target_point
-
 
     def teleport_spawn(self):
         location = self.points[self.current_point]
