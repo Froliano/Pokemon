@@ -25,14 +25,16 @@ class DialogBox:
         self.font = pygame.font.Font("../assets/dialogs/dialog_font.ttf", 18)
         self.money_font = pygame.font.Font("../assets/dialogs/dialog_font.ttf", 25)
         self.reading = False
+        self.show_money = True
 
     def game_over_render(self, screen):
         screen.blit(self.game_over_box, (-30, 0))
         screen.blit(self.game_over, (100,20))
 
     def money_render(self, player,  screen):
-        text = self.money_font.render(f"{player.money} $", False, (0, 0, 0))
-        screen.blit(text, text.get_rect(topright=(780, 10)))
+        if self.show_money:
+            text = self.money_font.render(f"{player.money} $", False, (0, 0, 0))
+            screen.blit(text, text.get_rect(topright=(780, 10)))
 
     def fight_render(self, player, screen):
         texts = []

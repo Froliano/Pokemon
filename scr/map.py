@@ -49,8 +49,8 @@ class MapManager:
             Portal(from_world="world", origin_point="fight2", target_world="fight", teleport_point="spawn_fight", npc_id=2)
         ], npcs=[
             NPC("paul", id=0, nb_points=7, dialog=["Bonne aventure", "je m'appelle Paul", "a+"]),
-            NPC("paul2", id=1, nb_points=2, xp=110),
-            NPC("robin", id=2, nb_points=2, defense=1)
+            NPC("paul2", id=1, nb_points=2, xp=110, money=100),
+            NPC("robin", id=2, nb_points=2, defense=1, money=10)
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="exit_house1")
@@ -128,6 +128,7 @@ class MapManager:
         if self.current_map == "fight":
             self.combat.play()
             dialog_box.fight_render(self.player, screen)
+            dialog_box.show_money = False
             if not self.combat.run:
                 self.get_group().remove(self.current_npc)
                 self.current_map = self.previous_map
@@ -135,6 +136,7 @@ class MapManager:
                 self.teleport_player("player")
                 self.player.change_show_bar()
                 self.player.regen()
+                dialog_box.show_money = True
 
     def teleport_player(self, name):
         point = self.get_object(name)

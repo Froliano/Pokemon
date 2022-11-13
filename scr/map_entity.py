@@ -10,6 +10,7 @@ class Player(Entity):
         self.speed = self.default_speed
 
         self.fight_speed = fight_speed
+        self.money = money
         self.xp = xp
         self.max_xp = 100
         self.level = 1
@@ -27,7 +28,6 @@ class Player(Entity):
             3 : "Fire_ball",
             4 : "Thunder"
         }
-        self.money = money
         self.show_bar = False
         self.bar_position = [0, 560]
 
@@ -96,7 +96,7 @@ class Player(Entity):
 class NPC(Player):
 
     def __init__(self, name, nb_points, dialog = [], id=0, fight_speed=1, xp=1, health=10, attack=1, defense=1, money=0):
-        super().__init__(name, fight_speed, xp, health, attack, defense, money)
+        super().__init__(name, fight_speed, xp, health, attack, defense, money=money)
         self.nb_points = nb_points
         self.points = []
         self.current_point = 0
