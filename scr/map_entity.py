@@ -5,7 +5,7 @@ from scr.entity import Entity
 class Player(Entity):
 
     def __init__(self, name = "player", fight_speed=1, xp=0, health=10, attack=1, defense=1, mana=10, money=0):
-        super().__init__(name, 0, 0)
+        super().__init__(name=name, x=0, y=0)
         self.default_speed = 4
         self.speed = self.default_speed
 
@@ -96,7 +96,7 @@ class Player(Entity):
 class NPC(Player):
 
     def __init__(self, name, nb_points, dialog = [], id=0, fight_speed=1, xp=1, health=10, attack=1, defense=1, money=0):
-        super().__init__(name, fight_speed, xp, health, attack, defense, money=money)
+        super().__init__(name=name, fight_speed=fight_speed, xp=xp, health=health, attack=attack, defense=defense, money=money)
         self.nb_points = nb_points
         self.points = []
         self.current_point = 0
