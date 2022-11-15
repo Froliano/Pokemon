@@ -63,7 +63,9 @@ class Combat:
             self.change_joueur()
         elif self.player.mana >= attack.mana_use:
             self.player.withdraw_mana(attack.mana_use)
-            dgt = (self.player.level * self.player.attack * attack.puissance) // (self.ennemy.defense * 10)
+            dgt = int((self.player.attack * (1+ attack.puissance/100)) / self.ennemy.defense)
+            print(self.player.attack)
+            print(dgt)
             self.ennemy.damage(dgt)
             self.clock = 0
             self.change_joueur()
@@ -99,11 +101,11 @@ class Punch:
 
 class Fire_ball:
     name = "Fire_ball"
-    puissance = 15
+    puissance = 25
     mana_use = 5
 
 
 class Thunder:
     name = "Thunder"
-    puissance = 25
+    puissance = 35
     mana_use = 10
