@@ -23,6 +23,7 @@ class DialogBox:
         self.letter_index = 0
 
         self.font = pygame.font.Font("../assets/dialogs/dialog_font.ttf", 18)
+        self.mana_font = pygame.font.Font("../assets/dialogs/dialog_font.ttf", 10)
         self.money_font = pygame.font.Font("../assets/dialogs/dialog_font.ttf", 25)
         self.reading = False
         self.show_money = True
@@ -35,6 +36,17 @@ class DialogBox:
         if self.show_money:
             text = self.money_font.render(f"{player.money} $", False, (0, 0, 0))
             screen.blit(text, text.get_rect(topright=(780, 10)))
+
+    def mana_render(self, player,  screen):
+        if not self.show_money:
+            text = self.font.render(f"{player.mana} / {player.max_mana} mana", False, (102, 168, 238))
+            screen.blit(text, text.get_rect(topleft=(0, 140)))
+
+    def health_render(self, player, screen):
+        if not self.show_money:
+            text = self.font.render(f"{player.health} / {player.max_health} HP",False, (102, 238, 130))
+            screen.blit(text,(player.bar_position[0], player.bar_position[1]-25))
+
 
     def fight_render(self, player, screen):
         texts = []

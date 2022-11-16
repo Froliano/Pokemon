@@ -11,7 +11,7 @@ class Game:
     def __init__(self):
         # creer la fenetre
         self.screen = pygame.display.set_mode((800, 600))
-        pygame.display.set_caption("Nathan")
+        pygame.display.set_caption("Game")
 
         # generer un joueur
         self.combat = Combat()
@@ -43,6 +43,8 @@ class Game:
         self.player.update_health_bar(self.screen)
         self.dialogue_box.chat_render(self.screen)
         self.dialogue_box.money_render(self.player, self.screen)
+        self.dialogue_box.mana_render(self.player, self.screen)
+        self.dialogue_box.health_render(self.player, self.screen)
 
         self.game_over()
 
