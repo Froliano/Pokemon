@@ -45,8 +45,11 @@ class DialogBox:
     def health_render(self, player, screen):
         if not self.show_money:
             text = self.font.render(f"{player.health} / {player.max_health} HP",False, (102, 238, 130))
-            screen.blit(text,(player.bar_position[0], player.bar_position[1]-25))
-
+            screen.blit(text, (player.bar_position[0], player.bar_position[1]-25))
+    def NPC_health_render(self, NPC, screen):
+        if not self.show_money:
+            text = self.font.render(f"{NPC.health} / {NPC.max_health} HP",False, (102, 238, 130))
+            screen.blit(text, text.get_rect(topleft=(NPC.bar_position[0]+280, NPC.bar_position[1]+30)))
 
     def fight_render(self, player, screen):
         texts = []

@@ -128,6 +128,7 @@ class MapManager:
         if self.current_map == "fight":
             self.combat.play()
             dialog_box.fight_render(self.player, screen)
+            dialog_box.NPC_health_render(self.current_npc, screen)
             dialog_box.show_money = False
             if not self.combat.run:
                 self.get_group().remove(self.current_npc)

@@ -64,8 +64,6 @@ class Combat:
         elif self.player.mana >= attack.mana_use:
             self.player.withdraw_mana(attack.mana_use)
             dgt = int((self.player.attack * (1+ attack.puissance/100)) / self.ennemy.defense)
-            print(self.player.attack)
-            print(dgt)
             self.ennemy.damage(dgt)
             self.clock = 0
             self.change_joueur()
