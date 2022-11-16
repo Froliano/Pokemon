@@ -61,7 +61,7 @@ class Player(Entity):
         if self.show_bar:
             health_barre = self.health/self.max_health
             xp_barre = self.xp/self.max_xp
-            mana_barre = self.mana/self.max_mana
+            mana_barre = 1- self.mana/self.max_mana
             # barre de vie
             pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1], 400, 40])
             pygame.draw.rect(surface, (30, 225, 30), [self.bar_position[0], self.bar_position[1], 400*health_barre, 40])
@@ -71,8 +71,8 @@ class Player(Entity):
             pygame.draw.rect(surface, (36, 168, 240), [self.bar_position[0], self.bar_position[1]+30, 400*xp_barre, 10])
 
             #barre de mana
-            pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1]-400, 40, 350])
-            pygame.draw.rect(surface, (113, 24, 249), [self.bar_position[0], self.bar_position[1]-400, 40, 350*mana_barre])
+            pygame.draw.rect(surface, (113, 24, 249), [self.bar_position[0], self.bar_position[1]-400, 40, 350])
+            pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1]-400, 40, 350*mana_barre])
 
     def withdraw_mana(self, amount):
         self.mana -= amount
