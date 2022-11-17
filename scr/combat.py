@@ -1,4 +1,5 @@
 import pygame
+from dataclasses import dataclass
 
 from random import randint
 import random
@@ -63,7 +64,7 @@ class Combat:
             self.change_joueur()
         elif self.player.mana >= attack.mana_use:
             self.player.withdraw_mana(attack.mana_use)
-            dgt = int((self.player.attack * (1+ attack.puissance/100)) / self.ennemy.defense)
+            dgt = int((self.player.attack * (1 + attack.puissance / 100)) / self.ennemy.defense)
             self.ennemy.damage(dgt)
             self.clock = 0
             self.change_joueur()
@@ -91,19 +92,25 @@ class Combat:
             self.run = False
 
 
-class Punch:
+@dataclass
+class Attack:
+    name: str
+    puissance: int
+    mana_use: int = 0
+
+
+class Punch(Attack):
     name = "Punch"
     puissance = 10
-    mana_use = 0
 
 
-class Fire_ball:
+class Fire_ball(Attack):
     name = "Fire_ball"
     puissance = 25
     mana_use = 5
 
 
-class Thunder:
+class Thunder(Attack):
     name = "Thunder"
     puissance = 35
     mana_use = 10
