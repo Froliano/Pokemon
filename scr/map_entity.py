@@ -32,6 +32,10 @@ class Player(Entity):
         self.bar_position = [0, 560]
 
     def add_xp(self, amount):
+        """
+        :param amount: montant d'exp
+        :return: ajout de l'exp et verification du level up
+        """
         self.xp += amount
         if self.xp >= self.max_xp:
             current_xp = self.xp - self.max_xp
@@ -39,9 +43,16 @@ class Player(Entity):
             self.level_up()
 
     def add_money(self, amount):
+        """
+        :param amount: montant de money
+        :return: ajout de la money
+        """
         self.money += amount
 
     def level_up(self):
+        """
+        :return: incrémentation de l'exp et agmentation des stats
+        """
         self.level += 1
         self.max_xp = int(self.max_xp * 1.09)
 
@@ -51,12 +62,19 @@ class Player(Entity):
         print("level up")
 
     def change_show_bar(self):
+        """
+        :return: invertion du bool pour afficher la barre de vie
+        """
         if self.show_bar:
             self.show_bar = False
         else:
             self.show_bar = True
 
     def update_health_bar(self, surface):
+        """
+        :param surface: surface sur laquelle appliquer la barre
+        :return: affichage de la barre de vie, d'exp et de mana
+        """
         # dessiner notre barre de vie
         if self.show_bar:
             health_barre = self.health/self.max_health
@@ -75,9 +93,17 @@ class Player(Entity):
             pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1]-400, 40, 350*mana_barre])
 
     def withdraw_mana(self, amount):
+        """
+        :param amount: montant de mana
+        :return: enlever le mana demandé
+        """
         self.mana -= amount
 
     def damage(self, amount = 3) :
+        """
+        :param amount: montant de degats
+        :return: diminuer la vie du joueur
+        """
         self.health -= amount
         if self.health <= 0:
             self.health = 0
@@ -85,16 +111,26 @@ class Player(Entity):
             self.change_show_bar()
 
     def heal(self, amount = 2):
+        """
+        :param amount: montant de vie
+        :return: ajout de la vie au joueur
+        """
         if self.health + amount <= self.max_health:
             self.health += amount
         else:
             self.health = self.max_health
 
     def regen(self):
+        """
+        :return: reinitialiser la vie et le mana à la fin du combat
+        """
         self.health = self.max_health
         self.mana = self.max_mana
 
     def is_alive(self):
+        """
+        :return: bool self.alive
+        """
         return self.alive
 
 
@@ -114,6 +150,10 @@ class NPC(Player):
         self.bar_position = [400, 0]
 
     def update_health_bar(self, surface):
+        """
+        :param surface: surface sur laquelle appliquer la barre
+        :return: affichage de la barre de vie
+        """
         # dessiner notre barre de vie
         if self.show_bar:
             barre = 1 - self.health/self.max_health
@@ -121,6 +161,9 @@ class NPC(Player):
             pygame.draw.rect(surface, (105, 106, 99), [self.bar_position[0], self.bar_position[1], 400*barre, 30])
 
     def move(self):
+        """
+        :return: déplacement du NPC en fonction du path
+        """
         current_point = self.current_point
         target_point = self.current_point + 1
 
@@ -143,18 +186,29 @@ class NPC(Player):
             self.current_point = target_point
 
     def teleport_spawn(self):
+        """
+        :return: placement du NPC au lancement du jeux
+        """
         location = self.points[self.current_point]
         self.position[0] = location.x
         self.position[1] = location.y
         self.save_location()
 
     def teleport_path(self, obj):
+        """
+        :param obj: path d'une map
+        :return: teleporter la NPC sur un path
+        """
         self.move_down()
         self.position[0] = obj.x
         self.position[1] = obj.y
         self.save_location()
 
     def load_points(self, tmx_data):
+        """
+        :param tmx_data: données de la map
+        :return: chargement de tout les path des NPC
+        """
         for num in range(1, self.nb_points + 1):
             point = tmx_data.get_object_by_name(f"{self.name}_path{num}")
             rect = pygame.Rect(point.x, point.y, point.width, point.height)

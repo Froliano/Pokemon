@@ -16,6 +16,11 @@ class Combat:
         self.alls_attack = [Punch, Fire_ball, Thunder]
 
     def premier_joueur(self, p1, p2):
+        """
+        :param p1: un objet de la classe player
+        :param p2: un objet de la classe player
+        :return: choisir le premier joueur lors du combat
+        """
         if p1.speed > p2.speed:
             self.player = p1
             self.ennemy = p2
@@ -32,9 +37,17 @@ class Combat:
                 self.ennemy = p1
 
     def change_joueur(self):
+        """
+        :return: invertion des joueurs
+        """
         self.player, self.ennemy = self.ennemy, self.player
 
     def NPC_round(self, NPC, ennemy):
+        """
+        :param NPC: le NPC
+        :param ennemy: le joueur
+        :return: définit l'attaque du NPC avec un taux aléatoire du heal
+        """
         prc_health = NPC.health / NPC.max_health
 
         if prc_health <= 0.2 and random.randint(0, 100) < 60:
@@ -47,16 +60,29 @@ class Combat:
         self.change_joueur()
 
     def define(self, player, ennemy):
+        """
+        :param player: l'objet player
+        :param ennemy: l'objet NPC
+        :return: lancement du combat
+        """
         self.run = True
         self.premier_joueur(player, ennemy)
 
     def chose_attack(self, attack_name):
+        """
+        :param attack_name: nom de l'attaque à faire
+        :return: class de l'attaque à partir du nom
+        """
         for attack in self.alls_attack:
             if attack_name == attack.name:
                 return attack
         return attack_name
 
     def damage(self, attack):
+        """
+        :param attack: nom de l'attack à faire
+        :return: le calcul des dégats à faire à l'ennemie
+        """
         attack = self.chose_attack(attack)
         if attack == "heal":
             self.player.heal()
@@ -70,6 +96,9 @@ class Combat:
             self.change_joueur()
 
     def play(self):
+        """
+        boucle du combat
+        """
         if self.player.is_alive():
             self.clock += 1
             if self.clock >= 30:
