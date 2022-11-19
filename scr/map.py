@@ -24,17 +24,19 @@ class Map:
     tmx_data: pytmx.TiledMap
     portals: list[Portal]
     npcs: list[NPC]
+    interactable: list[pygame.Rect]
     npc_path: pygame.rect = None
 
 
 class MapManager:
 
-    def __init__(self, screen, player):
+    def __init__(self, game, screen, player):
         self.maps = dict() # "house" -> Map("house", walls, group)
         self.current_map = "world"
         self.previous_map = self.current_map
         self.current_npc = None
 
+        self.game = game
         self.screen = screen
         self.player = player
         self.combat = Combat()
@@ -114,6 +116,11 @@ class MapManager:
 
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()
+            if self.get_interactable() and sprite.feet.collidelist(self.get_interactable()) > -1:
+                self.game.shop_open = True
+                self.game.shop()
+            else:
+                self.game.shop_open = False
 
     def start_fight(self):
         if self.current_map == "fight":
@@ -154,12 +161,15 @@ class MapManager:
 
         # definir une liste qui va stocker les rectangles de collision
         walls = []
+        interactable = []
         npc_path = None
         for obj in tmx_data.objects:
             if obj.type == "collision":
                 walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
             if obj.type == "npc_path":
                 npc_path = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+            if obj.type == "interactable":
+                interactable.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
 
         # dessiner le groupe de calques
         if name == "shop":
@@ -173,13 +183,15 @@ class MapManager:
             group.add(npc)
 
         # Creer un objet map
-        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs, npc_path)
+        self.maps[name] = Map(name=name, walls=walls, group=group, tmx_data=tmx_data,
+                              portals=portals, interactable=interactable, npcs=npcs, npc_path=npc_path)
 
     def get_map(self): return self.maps[self.current_map]
 
     def get_group(self): return self.get_map().group
 
     def get_walls(self): return self.get_map().walls
+    def get_interactable(self): return self.get_map().interactable
     def get_object(self, name): return self.get_map().tmx_data.get_object_by_name(name)
 
     def get_npc_by_id(self, npc_id):

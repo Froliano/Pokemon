@@ -14,6 +14,8 @@ class DialogBox:
 
         self.fight_box = pygame.transform.scale(self.box, (400, 120))
 
+        self.shop_box = pygame.transform.scale(self.box, (800, 600))
+
         self.game_over_box = pygame.transform.scale(self.box, (860, 600))
         self.game_over = pygame.image.load("../assets/dialogs/game_over.png")
         self.game_over = pygame.transform.scale(self.game_over, (600, 600))
@@ -28,14 +30,17 @@ class DialogBox:
         self.reading = False
         self.show_money = True
 
+    def shop(self, screen):
+        screen.blit(self.shop_box, (0, 0))
+
     def game_over_render(self, screen):
         screen.blit(self.game_over_box, (-30, 0))
         screen.blit(self.game_over, (100,20))
 
-    def money_render(self, player,  screen):
+    def money_render(self, player,  screen, x = 780, y = 10):
         if self.show_money:
             text = self.money_font.render(f"{player.money} $", False, (0, 0, 0))
-            screen.blit(text, text.get_rect(topright=(780, 10)))
+            screen.blit(text, text.get_rect(topright=(x, y)))
 
     def mana_render(self, player,  screen):
         if not self.show_money:
@@ -46,6 +51,7 @@ class DialogBox:
         if not self.show_money:
             text = self.font.render(f"{player.health} / {player.max_health} HP",False, (102, 238, 130))
             screen.blit(text, (player.bar_position[0], player.bar_position[1]-25))
+
     def NPC_health_render(self, NPC, screen):
         if not self.show_money:
             text = self.font.render(f"{NPC.health} / {NPC.max_health} HP",False, (102, 238, 130))

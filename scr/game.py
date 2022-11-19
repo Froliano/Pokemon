@@ -16,8 +16,9 @@ class Game:
         # generer un joueur
         self.combat = Combat()
         self.player = Player(attack=3)
-        self.map_manager = MapManager(self.screen, self.player)
+        self.map_manager = MapManager(self, self.screen, self.player)
         self.dialogue_box = DialogBox()
+        self.shop_open = False
 
     def handle_input(self):
         pressed = pygame.key.get_pressed()
@@ -35,6 +36,10 @@ class Game:
         if self.player.is_alive() is False:
             self.dialogue_box.game_over_render(self.screen)
 
+    def shop(self):
+        self.dialogue_box.shop(self.screen)
+        self.dialogue_box.money_render(self.player, self.screen, 720, 50)
+
     def update(self):
         self.map_manager.draw()
         self.map_manager.fight(self.screen, self.dialogue_box)
@@ -42,7 +47,8 @@ class Game:
 
         self.player.update_health_bar(self.screen)
         self.dialogue_box.chat_render(self.screen)
-        self.dialogue_box.money_render(self.player, self.screen)
+        if not self.shop_open:
+            self.dialogue_box.money_render(self.player, self.screen)
         self.dialogue_box.mana_render(self.player, self.screen)
         self.dialogue_box.health_render(self.player, self.screen)
 

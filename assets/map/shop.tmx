@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="32">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="33">
  <tileset firstgid="1" source="pokecenter.tsx"/>
  <tileset firstgid="1185" source="house.tsx"/>
  <layer id="1" name="floor" width="32" height="32">
@@ -203,5 +203,6 @@
   <object id="27" type="collision" x="49.3712" y="100.605" width="32.1379" height="25.6171"/>
   <object id="29" type="collision" x="53.5631" y="335.352" width="26.0829" height="34.0009"/>
   <object id="30" type="collision" x="383.791" y="335.817" width="27.0144" height="28.8775"/>
+  <object id="32" type="interactable" x="206.334" y="191.43" width="35.3982" height="15.8361"/>
  </objectgroup>
 </map>
