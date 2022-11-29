@@ -3,6 +3,7 @@ import pygame, pytmx, pyscroll
 
 from scr.map_entity import NPC
 from scr.combat import Combat
+from scr.Sound import Sound
 
 
 @dataclass
@@ -40,6 +41,7 @@ class MapManager:
         self.screen = screen
         self.player = player
         self.combat = Combat()
+        self.music = Sound()
 
         #chargement des map/portail rataché/NPC rattaché
         self.register_map("world", portals=[
@@ -221,3 +223,15 @@ class MapManager:
         for npc in self.get_map().npcs:
             npc.move()
             npc.update_health_bar(screen)
+
+    def play_main_music(self):
+        if self.current_map == "world":
+            self.music.play_main()
+        else:
+            self.music.stop_main_music()
+
+    def play_battle_music(self):
+        if self.current_map == "fight":
+            self.music.play_battle()
+        else:
+            self.music.stop_battle_music()
