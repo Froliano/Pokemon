@@ -46,6 +46,8 @@ class Game:
         self.map_manager.update(self.screen)
         self.map_manager.play_main_music()
         self.map_manager.play_battle_music()
+        self.map_manager.play_shop_music()
+        self.map_manager.play_house_music()
 
         self.player.update_health_bar(self.screen)
         self.dialogue_box.chat_render(self.screen)

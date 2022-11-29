@@ -42,6 +42,7 @@ class MapManager:
         self.player = player
         self.combat = Combat()
         self.music = Sound()
+        self.recovery_music = pygame.mixer.Sound("../assets/sounds/recovery.mp3")
 
         #chargement des map/portail rataché/NPC rattaché
         self.register_map("world", portals=[
@@ -121,6 +122,7 @@ class MapManager:
             if self.get_interactable() and sprite.feet.collidelist(self.get_interactable()) > -1:
                 self.game.shop_open = True
                 self.game.shop()
+                self.recovery_music.play()
             else:
                 self.game.shop_open = False
 
@@ -235,3 +237,15 @@ class MapManager:
             self.music.play_battle()
         else:
             self.music.stop_battle_music()
+
+    def play_house_music(self):
+        if self.current_map == "house" or self.current_map == "house2" or self.current_map == "house3":
+            self.music.play_house()
+        else:
+            self.music.stop_house_music()
+
+    def play_shop_music(self):
+        if self.current_map == "shop":
+            self.music.play_shop()
+        else:
+            self.music.stop_shop_music()
