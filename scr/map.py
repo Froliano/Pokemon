@@ -122,7 +122,6 @@ class MapManager:
             if self.get_interactable() and sprite.feet.collidelist(self.get_interactable()) > -1:
                 self.game.shop_open = True
                 self.game.shop()
-                self.recovery_music.play()
             else:
                 self.game.shop_open = False
 
@@ -249,3 +248,8 @@ class MapManager:
             self.music.play_shop()
         else:
             self.music.stop_shop_music()
+
+    def play_recovery(self):
+        if self.current_map == "shop" and self.game.shop_open == True :
+            self.music.stop_shop_music()
+            self.recovery_music.play()
