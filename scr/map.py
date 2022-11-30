@@ -3,7 +3,7 @@ import pygame, pytmx, pyscroll
 
 from scr.map_entity import NPC
 from scr.combat import Combat
-from scr.Sound import Sound
+from scr.Sound import SoundManager
 
 
 @dataclass
@@ -41,8 +41,9 @@ class MapManager:
         self.screen = screen
         self.player = player
         self.combat = Combat()
-        self.music = Sound()
-        self.recovery_music = pygame.mixer.Sound("../assets/sounds/recovery.mp3")
+        self.music = SoundManager()
+        self.music.first_music()
+
 
         #chargement des map/portail rataché/NPC rattaché
         self.register_map("world", portals=[
@@ -103,6 +104,7 @@ class MapManager:
                     # copy_portal = portal
                     self.previous_map = self.current_map
                     self.current_map = portal.target_world
+                    self.sound()
                     self.start_fight()
                     self.teleport_player(portal.teleport_point)
 
@@ -125,8 +127,33 @@ class MapManager:
             else:
                 self.game.shop_open = False
 
+    def sound(self):
+        self.music.stop("main")
+        if self.current_map == "world":
+            self.music.play("main")
+        else:
+            self.music.stop("main")
+
+        if self.current_map == "house" or self.current_map == "house2" or self.current_map == "house3":
+            self.music.play("house")
+            print("ok")
+        else:
+            self.music.stop("house")
+
+        if self.current_map == "shop":
+            self.music.play("shop")
+        else:
+            self.stop_shop()
+
+    def stop_shop(self):
+        self.music.stop("shop")
+
+    def play_shop(self):
+        self.music.play("shop")
+
     def start_fight(self):
         if self.current_map == "fight":
+            self.music.play("battle")
             self.player.change_show_bar()
             self.get_group().add(self.current_npc)
             self.current_npc.id = 0
@@ -148,6 +175,8 @@ class MapManager:
                 self.player.change_show_bar()
                 self.player.regen()
                 dialog_box.show_money = True
+                self.music.stop("battle")
+                self.music.play("main")
 
     def teleport_player(self, name):
         point = self.get_object(name)
@@ -224,32 +253,3 @@ class MapManager:
         for npc in self.get_map().npcs:
             npc.move()
             npc.update_health_bar(screen)
-
-    def play_main_music(self):
-        if self.current_map == "world":
-            self.music.play_main()
-        else:
-            self.music.stop_main_music()
-
-    def play_battle_music(self):
-        if self.current_map == "fight":
-            self.music.play_battle()
-        else:
-            self.music.stop_battle_music()
-
-    def play_house_music(self):
-        if self.current_map == "house" or self.current_map == "house2" or self.current_map == "house3":
-            self.music.play_house()
-        else:
-            self.music.stop_house_music()
-
-    def play_shop_music(self):
-        if self.current_map == "shop":
-            self.music.play_shop()
-        else:
-            self.music.stop_shop_music()
-
-    def play_recovery(self):
-        if self.current_map == "shop" and self.game.shop_open == True :
-            self.music.stop_shop_music()
-            self.recovery_music.play()

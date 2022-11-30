@@ -4,6 +4,7 @@ from scr.combat import Combat
 from scr.map import MapManager
 from scr.dialog import DialogBox
 from scr.map_entity import Player
+from scr.Sound import SoundManager
 
 
 class Game:
@@ -18,7 +19,9 @@ class Game:
         self.player = Player(attack=3)
         self.map_manager = MapManager(self, self.screen, self.player)
         self.dialogue_box = DialogBox()
+        self.music = SoundManager()
         self.shop_open = False
+        self.shop_active = False
 
     def handle_input(self):
         pressed = pygame.key.get_pressed()
@@ -37,18 +40,22 @@ class Game:
             self.dialogue_box.game_over_render(self.screen)
 
     def shop(self):
+        if not self.shop_active:
+            self.map_manager.stop_shop()
+            self.music.play("recovery")
+            self.shop_active = True
         self.dialogue_box.shop(self.screen)
         self.dialogue_box.money_render(self.player, self.screen, 720, 50)
 
     def update(self):
+        if not self.shop_open and self.shop_active:
+            self.shop_active = False
+            self.map_manager.play_shop()
+
+
         self.map_manager.draw()
         self.map_manager.fight(self.screen, self.dialogue_box)
         self.map_manager.update(self.screen)
-        self.map_manager.play_main_music()
-        self.map_manager.play_battle_music()
-        self.map_manager.play_shop_music()
-        self.map_manager.play_house_music()
-        self.map_manager.play_recovery()
 
         self.player.update_health_bar(self.screen)
         self.dialogue_box.chat_render(self.screen)
