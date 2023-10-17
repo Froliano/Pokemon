@@ -1,0 +1,145 @@
+import pygame
+from dataclasses import dataclass
+
+from random import randint
+import random
+from scr.map_entity import Player, NPC
+
+
+class Combat:
+
+    def __init__(self):
+        self.player = Player()
+        self.ennemy = Player()
+        self.clock = 0
+        self.run = False
+        self.alls_attack = [Punch, Fire_ball, Thunder]
+
+    def premier_joueur(self, p1, p2):
+        """
+        :param p1: un objet de la classe player
+        :param p2: un objet de la classe player
+        :return: choisir le premier joueur lors du combat
+        """
+        if p1.speed > p2.speed:
+            self.player = p1
+            self.ennemy = p2
+        elif p1.speed < p2.speed:
+            self.player = p2
+            self.ennemy = p1
+        else:
+            a = randint(0, 1)
+            if a == 0:
+                self.player = p1
+                self.ennemy = p2
+            elif a == 1:
+                self.player = p2
+                self.ennemy = p1
+
+    def change_joueur(self):
+        """
+        :return: invertion des joueurs
+        """
+        self.player, self.ennemy = self.ennemy, self.player
+
+    def NPC_round(self, NPC, ennemy):
+        """
+        :param NPC: le NPC
+        :param ennemy: le joueur
+        :return: définit l'attaque du NPC avec un taux aléatoire du heal
+        """
+        prc_health = NPC.health / NPC.max_health
+
+        if prc_health <= 0.2 and random.randint(0, 100) < 60:
+            NPC.heal()
+        elif prc_health <= 0.5 and random.randint(0, 100) < 40:
+            NPC.heal()
+        else:
+            ennemy.damage(self.player.attack)
+        self.clock = 0
+        self.change_joueur()
+
+    def define(self, player, ennemy):
+        """
+        :param player: l'objet player
+        :param ennemy: l'objet NPC
+        :return: lancement du combat
+        """
+        self.run = True
+        self.premier_joueur(player, ennemy)
+
+    def chose_attack(self, attack_name):
+        """
+        :param attack_name: nom de l'attaque à faire
+        :return: class de l'attaque à partir du nom
+        """
+        for attack in self.alls_attack:
+            if attack_name == attack.name:
+                return attack
+        return attack_name
+
+    def damage(self, attack):
+        """
+        :param attack: nom de l'attack à faire
+        :return: le calcul des dégats à faire à l'ennemie
+        """
+        attack = self.chose_attack(attack)
+        if attack == "heal":
+            self.player.heal()
+            self.clock = 0
+            self.change_joueur()
+        elif self.player.mana >= attack.mana_use:
+            self.player.withdraw_mana(attack.mana_use)
+            dgt = int((self.player.attack * (1 + attack.puissance / 100)) / self.ennemy.defense)
+            self.ennemy.damage(dgt)
+            self.clock = 0
+            self.change_joueur()
+
+    def play(self):
+        """
+        boucle du combat
+        """
+        if self.player.is_alive():
+            self.clock += 1
+            if self.clock >= 30:
+                if type(self.player) is NPC:
+                    self.NPC_round(self.player, self.ennemy)
+                elif type(self.player) is Player:
+                    pressed = pygame.key.get_pressed()
+                    if pressed[pygame.K_1]:
+                        self.damage(self.player.actions[1])
+                    elif pressed[pygame.K_2]:
+                        self.damage(self.player.actions[2])
+                    elif pressed[pygame.K_3]:
+                        self.damage(self.player.actions[3])
+                    elif pressed[pygame.K_4]:
+                        self.damage(self.player.actions[4])
+
+        if not self.player.is_alive() and type(self.player) is NPC:
+            self.ennemy.add_xp(self.player.xp)
+            self.ennemy.add_money(self.player.money)
+            self.run = False
+
+
+@dataclass
+class Attack:
+    name: str
+    puissance: int
+    mana_use: int = 0
+
+
+class Punch(Attack):
+    name = "Punch"
+    puissance = 10
+
+
+class Fire_ball(Attack):
+    name = "Fire_ball"
+    puissance = 25
+    mana_use = 5
+
+
+class Thunder(Attack):
+    name = "Thunder"
+    puissance = 35
+    mana_use = 10
