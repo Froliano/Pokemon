@@ -1,11 +1,3 @@
-# Idee
-Ce que l'on a:
-1map 'world'
-2map 'house'
-2sprite de player
-class player:
-
-
 class game:
 
 
@@ -35,3 +27,25 @@ Dans la ville de départ le joueur pourra (dans le tuto)
 système d'attaque:
 tour par tour
 au moment du combat le player est tp dans une autre zone qui est faite pour le combat
+=======
+
+## aide
+
+### git clone "lien"
+ajouter le projet sur ton pc
+
+### git add "nom fichier"
+### git add .
+ajouter le ou les fichier dans un colis
+
+### git commit -m "changement"
+l'enregistrer dans ton répertoire
+
+### git push
+l'envoyer sur github
+
+### git fetch
+récupérer la dernière version du projet
+
+### git checkout "nom de la branche"
+se placer sur la branche spéciale
